@@ -1,0 +1,61 @@
+<!-- templates/home.html -->
+{% extends 'base/base.html' %}
+{% load static %}
+{% load search_helper %}
+
+{% block content %}
+<!-- Search by ...-->
+<div class="row d-flex justify-content-center">
+  <div class="col-lg-6 ">
+      <div class="card">
+          <div class="card-body">
+              <h4 class="card-title">Select A profile</h4>
+              <br>
+              <!-- <p class="card-title-desc">Set heights using classes like <code>.form-control-lg</code> and <code>.form-control-sm</code>.</p> -->
+              <div>
+                <div class="mb-4">
+                  <div class="form-group">
+                  <form action="{% url 'results_profiles' %}" method="get" >
+
+                    <select class="form-control" name="queue_id" onchange="this.form.submit()">
+                    <option>Select a Profile </option>
+                      {% for entry in queues %}
+                          <option value="{{ entry.id|safe }}"  >{{ entry.name }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+                </div>
+                <div class="mb-4 text-right" >
+                    <input type="submit" value="Search" name="first_button" class="btn btn-primary waves-effect waves-light">
+                  </form>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+{% if profile %}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                    <h4 class="card-title">{{title|upper}}</h4>
+                                    <p><a href="{{standalone_link}}" target="_blank">Open in a new tab <i class="fas fa-external-link-alt"></i> </a></p>
+                                    <hr/>
+                                    {{profile|safe}}
+        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    {% endif %}
+{% endblock %}
+
+{% block jscript %}
+
+{% endblock %}

@@ -1,0 +1,567 @@
+<!-- templates/home.html -->
+{% extends 'base/base.html' %}
+{% load static %}
+{% load search_helper %}
+
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" referrerpolicy="no-referrer" />
+
+<style>
+    .fa-frown-open {
+    color: rgb(255, 30, 0);
+}
+.fa-smile {
+    color: rgba(17, 173, 245, 0.979);
+}
+</style>
+<style>
+    .rotate{
+    -moz-transition: all 2s linear;
+    -webkit-transition: all 2s linear;
+    transition: all 2s linear;
+}
+
+.rotate.down{
+    -ms-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+</style>
+
+ <div class="row">
+                            <div class="col-xl-8">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="media">
+                                                    <div class="media-body overflow-hidden">
+                                                        <p class="text-truncate font-size-14 mb-2">Web</p>
+                                                        <h4 class="mb-0 web-service"> 
+                                                            <i class="fa fa-spinner fa-spin"></i>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="text-primary">
+                                                        <i class=" font-size-24"></i>
+                                                    </div>
+                                                    <style>
+                                                        #off.fa-toggle-off{
+                                                            color:red;
+                                                        }
+                                                    </style>
+                                                    <div class="media-body overflow-hidden">
+                                                        <p class="text-truncate font-size-14 mb-2">SMS</p>
+                                                        <h4 class="mb-0 sms-service"> 
+                                                            <i class="fa fa-spinner fa-spin"></i>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="text-primary">
+                                                        <i class=" font-size-24"></i>
+                                                    </div>
+                                                    <div class="media-body overflow-hidden">
+                                                        <p class="text-truncate font-size-14 mb-2">FR</p>
+                                                        <h4 class="mb-0 fr-service"> 
+                                                            <i class="fa fa-spinner fa-spin"></i>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="text-primary">
+                                                        <i class="fas fa-wifi"></i>
+                                                    </div>                                                    
+                                                </div>
+                                            </div>
+
+                                            <div class="card-body border-top py-3">
+                                                <div class="text-truncate">
+                                                    <span class="badge badge-soft-success font-size-11"><i class="mdi mdi-menu-up"> </i> 
+                                                        <span class="time_now_service"> {% now "m/d/Y - H:i:s" %} </span>  </span>
+                                                    <span class="text-muted ml-2">Last time checked</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="media">
+                                                    <div class="media-body overflow-hidden">
+                                                        <p class="text-truncate font-size-14 mb-2">Total chats this month</p>
+                                                        <h4 class="mb-0 total_chat_this_month">
+                                                            <i class="fa fa-spinner fa-spin"></i>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="text-primary">
+                                                        <i class="ri-building-3-line font-size-24"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body border-top py-3">
+                                                <div class="text-truncate">
+                                                    <span class="badge badge-soft-success font-size-11">
+                                                        <span class="time_now_this_month"> {% now "m/d/Y - H:i:s" %} </span> </span>
+                                                    <span class="text-muted ml-2">Last time checked</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="media">
+                                                    <div class="media-body overflow-hidden">
+                                                        <p class="text-truncate font-size-14 mb-2">Total chats this day</p>
+                                                        <h4 class="mb-0  total_chat_today ">
+                                                            <i class="fa fa-spinner fa-spin"></i>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="text-primary">
+                                                        <i class="ri-home-3-line font-size-24"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body border-top py-3">
+                                                <div class="text-truncate">
+                                                    <span class="badge badge-soft-success font-size-11"> 
+                                                        <span class="time_now_this_day"> {% now "m/d/Y - H:i:s" %} </span> </span>
+                                                    <span class="text-muted ml-2">Last time checked</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end row -->
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="float-right d-none d-md-inline-block">
+                                            <div class="btn-group mb-2">
+                                             <!--    <button type="button" class="btn btn-sm btn-light">Today</button>
+                                                <button type="button" class="btn btn-sm btn-light active">Monthly</button> -->
+                                            </div>
+                                        </div>
+                                        <h4 class="card-title mb-4">Total Chats: ({{last_year | safe }} - blue bar chart) Vs ({{this_year| safe}} - green line chart)</h4>
+                                        <div>
+                                            <div id="line-column-chart" class="apex-charts" dir="ltr"></div>
+                                        </div>
+                                    </div>
+                                    <!-- 
+                                    <div class="card-body border-top text-center">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="d-inline-flex">
+                                                    <h5 class="mr-2">{{total_chat_this_month}}</h5>
+                                                    <div class="text-success">
+                                                        <i class="mdi mdi-menu-up font-size-14"> </i>2.2 %
+                                                    </div>
+                                                </div>
+                                                <p class="text-muted text-truncate mb-0">This month</p>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="mt-4 mt-sm-0">
+                                                    <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> This Academic Year :</p>
+                                                    <div class="d-inline-flex">
+                                                        <h5 class="mb-0 mr-2">{{chat_this_year}}</h5>
+                                                        <div class="text-success">
+                                                            <i class="mdi mdi-menu-up font-size-14"> </i>2.1 %
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="mt-4 mt-sm-0">
+                                                    <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> Previous Acadmic Year :</p>
+                                                    <div class="d-inline-flex">
+                                                        <h5 class="mb-0"> {{chat_last_year}}</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                -->
+                                
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="dropdown float-right">
+                                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
+                                                <i class="mdi mdi-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" style="">
+                                                <!-- item-->
+                                                <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
+                                                <!-- item-->
+                                                <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                                                <!-- item-->
+                                                <a href="javascript:void(0);" class="dropdown-item">Profit</a>
+                                                <!-- item-->
+                                                <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                                            </div>
+                                        </div>
+    
+                                        <h4 class="card-title mb-4">Operator currently online => {{total_operator_online|length}}</h4>
+    
+                                        <div data-simplebar="init" style="max-height: 452px;min-height: 452px;"><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: -17px; bottom: 0px;"><div class="simplebar-content-wrapper" style="height: auto; overflow: hidden scroll;"><div class="simplebar-content" style="padding: 0px;">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover mb-0"  id="myDataTableUsersOnline">
+            
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Username</th>
+                                                            <th>status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for operator in total_operator_online %}
+                                                        <tr>
+                                                            <th scope="row">{{ forloop.counter }}</th>
+                                                            <td><a href="#" class="media">
+                                                                <!-- <img class="d-flex mr-3 rounded-circle" src="{% static 'images/users/avatar-2.jpg' %}" alt="Generic placeholder image" height="36"> -->
+                                                                <div class="media-body chat-user-box overflow-hidden">
+                                                                    <p class="user-title m-0">{{operator.name}}</p>
+                                                                    <p class="text-muted text-truncate">{% find_school_from_username operator.name %}</p>
+                                                                </div>
+                                                            </a></td>
+                                                            <td>{{operator.show}}</td>
+                                                        </tr>
+                                                        {% endfor %}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            
+
+                                        </div></div></div></div><div class="simplebar-placeholder" style="width: auto; height: 572px;"></div></div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="transform: translate3d(0px, 0px, 0px); display: none;"></div></div><div class="simplebar-track simplebar-vertical" style="visibility: visible;"><div class="simplebar-scrollbar" style="height: 190px; transform: translate3d(0px, 140px, 0px); display: block;"></div></div></div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <!-- 
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Operator currently online</h4>    
+                                        
+                                        <div class="table-responsive">
+                                            <table class="table mb-0">
+        
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>avatar</th>
+                                                        <th>Username</th>
+                                                        <th>School</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for operator in operator_currently_online %}
+                                                    <tr>
+                                                        <th scope="row">{{ forloop.counter }}</th>
+                                                        <th> <div class="chat-avatar">
+                                                            <img src="{% static 'images/brands/github.png' %}" alt="">
+                                                        </div></th>
+                                                        <td>{{operator}}</td>
+                                                        <td>York</td>
+                                                        <td class="text-center"><i class="far fa-smile"></i></td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+        
+                                    </div>
+                                </div>
+                            </div>
+
+                            -->
+
+
+
+
+
+
+
+                            
+</div>
+
+
+
+
+
+{% if object_list %}
+<div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Total chats: {{ object_list|length }} 
+                                        </h4>
+                                        <p class="card-title-desc">
+                                            <a href="{% url 'download_list_of_chats_on_homepage' %}" class="btn btn-sm btn-primary"><i class="ri-download-line"></i>&nbsp;Download</a>
+                                        </p>
+        
+                                        <div class="table-responsive">
+                                            <table class="table mb-0 table-hover " id="myDataTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Guest</th>
+                                                        <th>Started</th>
+                                                        <th>From Queue</th>
+                                                        <th>Operator</th>
+                                                        <th>Ended</th>
+                                                        <th>Transcript</th>
+                                                        <th>Wait</th>
+                                                        <th>Duration</th>
+                                                        <th>Protocol</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for value in object_list %}
+                                                    <tr>
+                                                        <th scope="row">{{ forloop.counter }}</th>
+                                                        <td>
+                                                            <a href="{{ value.chat_standalone_url }}" target="_blank">
+                                                                {{value.guest|truncatechars:7}}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            {% if value.started %}
+                                                                {{ value.started }} 
+                                                            {% endif %}
+                                                        </td>
+                                                        <td><a href="{% url  'get_chats_from_this_queue_using_only_the_queue_name' value.queue  %}">{{value.queue}}</a>  </td>
+                                                        <td>
+                                                            {% if value.operator %}
+                                                                <a href="{% url  'get_chats_for_this_user' username=value.operator  %}">{{value.operator}}</a>
+                                                            {% endif %}
+                                                        </td>
+
+                                                        <td>{{  value.ended }}</td>
+                                                        <td><a href="{% url 'get_chat_transcript' value.chat_id %}">Transcript</a>
+                                                            {% if  value.hasReferenceQuestion %}
+                                                            &nbsp;<i class="fas fa-question-circle"></i>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>{{value.wait}}</td>
+                                                        <td>{{value.duration}}</td>
+                                                        <td>
+                                                            {% if value.protocol == "web" %}
+                                                              <i class="fas fa-2x  fa-comments"></i>
+
+                                                            {% elif  value.protocol == "twilio" %}
+
+                                                              <i class="fas fa-2x fa-sms"></i>
+                                                            {% else %}
+                                                              <i class="fas fa-mobile-alt"></i>
+                                                            {% endif %}
+                                                        
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+        
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    {% endif %}
+
+{% endblock %}
+
+{% block jscript %}
+
+<script>
+                        
+    $(document).ready( function () {
+        $('#myDataTable').DataTable( {
+        "pageLength": 10
+    });
+    } );
+
+
+
+
+
+    </script>
+                    <script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+                    <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+                    <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+                    <script>
+function beep() {
+    var snd = new Audio("data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=");  
+    snd.play();
+}
+                         
+                                    function CallMethodForDataPerMonthorDay(url, divClassData, divClassTimestamps ) {
+                                        //show loading... image
+                                        $.ajax({
+                                        type: 'GET',
+                                        url: url,
+                                        success: function (response) {
+                                            // on successfull creating object
+                                            $(divClassData).text(response['total_chats']);
+                                            var now = new Date(Date.now());
+                                            $(divClassTimestamps).text(now.toLocaleString() )
+                                        },
+                                        error: function (response) {
+                                            // alert the error if any error occured
+                                            console.log(response);
+                                        }
+                                        });
+
+                                       
+                                    }
+
+                           
+
+                                                            
+
+                                function CallMethodForServices(url, divClass ) {
+                                        //show loading... image
+
+                                        $.ajax({
+                                            type: 'GET',
+                                            url: url,
+                                            contentType: 'application/json;',
+                                            success: function(result) {
+                                                if (result['service']=='available'){
+                                                    $(divClass).html('<i class="far fa-smile"></i>')
+                                                }else{
+                                                    $(divClass).html('<i class="fas fa-frown-open animate__animated"></i>');
+                                                    beep();
+                                                }
+                                                var now = new Date(Date.now());
+                                                $(".time_now_service ").text(now.toLocaleString())
+                                                
+                                            }
+                                        });
+                                    }
+
+    CallMethodForDataPerMonthorDay("{% url 'get_total_for_this_day' %}", ".total_chat_today", ".time_now_this_day")
+    CallMethodForDataPerMonthorDay("{% url 'get_total_for_this_month' %}", ".total_chat_this_month", ".time_now_this_month")
+    CallMethodForServices("{% url 'service_web' %}", ".web-service")
+    CallMethodForServices("{% url 'service_sms' %}", ".sms-service")
+    CallMethodForServices("{% url 'service_fr' %}", ".fr-service")
+                                    
+   setInterval(function() {
+    CallMethodForDataPerMonthorDay("{% url 'get_total_for_this_day' %}", ".total_chat_today", ".time_now_this_day")
+    CallMethodForDataPerMonthorDay("{% url 'get_total_for_this_month' %}", ".total_chat_this_month", ".time_now_this_month")
+
+    CallMethodForServices("{% url 'service_web' %}", ".web-service")
+    CallMethodForServices("{% url 'service_sms' %}", ".sms-service")
+    CallMethodForServices("{% url 'service_fr' %}", ".fr-service")
+     }, 60000); // each minute
+
+                        var url ="{% url 'get_data_for_chart' %}";
+
+                        $.getJSON(url, function(response) {
+
+
+                            var options = {
+                            series: [{
+                                name: "2020",
+                                type: "column",
+                                data: response['last_year'],
+                            }, {
+                                name: "2021",
+                                type: "line",
+                                data: response['this_year'],
+                            }],
+                            chart: {
+                                height: 280,
+                                type: "line",
+                                toolbar: {
+                                    show: !1
+                                }
+                            },
+                            stroke: {
+                                width: [0, 3],
+                                curve: "smooth"
+                            },
+                            plotOptions: {
+                                bar: {
+                                    horizontal: !1,
+                                    columnWidth: "20%"
+                                }
+                            },
+                            dataLabels: {
+                                enabled: !1
+                            },
+                            legend: {
+                                show: !1
+                            },
+                            colors: ["#5664d2", "#1cbb8c"],
+                            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                        },
+                        chart = new ApexCharts(document.querySelector("#line-column-chart"), options);
+                        chart.render();
+
+
+                        });
+                        
+                        /*
+
+                        var datatable = $( '#myDataTableUsersOnline-----not-working' ).DataTable({searching: false,destroy: true,paging: false,});
+                        setInterval(function(){
+
+                        $.get("{% url 'get_data_for_users_currently_online_table' %}", function(newDataArray) {
+                            datatable.clear();
+                            datatable.rows.add(newDataArray);
+                            datatable.draw();
+                            
+                            console.log(newDataArray);
+                        });
+                        }, 5000);//every 5 seconds 
+
+                        */
+
+                        // 
+                             
+                        /*
+                        
+                                    setInterval(function(){
+                                        $.ajax({
+                                            type: 'GET',
+                                            url: "{% url 'get_data_for_users_currently_online_table' %}",
+                                            success:function(response){
+                                                if(response != ""){
+                                                    console.log(response)
+                                                    $('#myDataTableUsersOnline2').dataTable({
+                                                        searching: false,
+                                                        destroy: true,
+                                                        paging: false,
+                                                    });//reloads table, syntax will differ based on datatables version 
+                                                }
+                                            }
+                                        })
+                                    }, 5000);//every 5 seconds 
+                                    */
+
+                                </script>
+
+                        
+
+
+
+{% endblock %}
+

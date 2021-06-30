@@ -1,0 +1,186 @@
+<!-- templates/home.html -->
+{% extends 'base/base.html' %}
+{% load static %}
+{% load search_helper %}
+
+{% block content %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Total Chats for <strong>{{username | upper}}</strong> for {{current_year| safe}} : <strong>{{object_list|length  }} chats </strong>
+                </h4>
+                <br/>
+                
+                <div id="cal-heatmap"></div>
+                <p class="card-title-desc" id="onClick-placeholder">
+                    
+                </p>
+
+                {% if assignments %}
+                    <h5 class="card-title">This operator: <strong>{{name | upper}}</strong> is assigned to those queues</h5>
+                
+                    {% for assignment in assignments %}
+
+                        <br>
+                        *{{assignment.queue}}
+
+                    {% endfor %}
+                {% endif %}
+
+
+
+                <div id="output"></div>
+
+                <br>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% if object_list %}
+<div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Total chats: {{ object_list|length }} 
+                                        </h4>
+                                        <p class="card-title-desc">
+                                            
+                                        </p>
+        
+                                        <div class="table-responsive">
+                                            <table class="table mb-0 table-hover " id="myDataTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Guest</th>
+                                                        <th>Started (YYYY-MM-DD)</th>
+                                                        <th>Queue</th>
+                                                        <th>Operator</th>
+                                                        <th>Ended</th>
+                                                        <th>Transcript</th>
+                                                        <th>Wait</th>
+                                                        <th>Duration</th>
+                                                        <th>Protocol</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for value in object_list %}
+                                                    <tr>
+                                                        <th scope="row">{{ forloop.counter }}</th>
+                                                        <td>
+                                                            <a href="{{ value.chat_standalone_url }}" target="_blank">
+                                                                {{value.guest|truncatechars:7}}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            {% if value.started %}
+                                                                {{ value.started}} 
+                                                            {% endif %}
+                                                        </td>
+                                                        <td><a href="{% url  'get_chats_from_this_queue_using_only_the_queue_name' value.queue  %}">{{value.queue}}</a>  </td>
+                                                        <td>
+                                                            {% if value.operator %}
+                                                                <a href="{% url  'get_chats_for_this_user' username=value.operator %}">{{value.operator}}</a>
+                                                            {% endif %}
+                                                        </td>
+
+                                                        <td>{{  value.ended }}</td>
+                                                        <td><a href="{% url 'get_chat_transcript' value.chat_id %}">Transcript</a>
+                                                            {% if  value.hasReferenceQuestion %}
+                                                            &nbsp;<i class="fas fa-question-circle"></i>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>{{value.wait}}</td>
+                                                        <td>{{value.duration}}</td>
+                                                        <td>
+                                                            {% if value.protocol == "web" %}
+                                                              <i class="fas fa-2x  fa-comments"></i>
+
+                                                            {% elif  value.protocol == "twilio" %}
+
+                                                              <i class="fas fa-2x fa-sms"></i>
+                                                            {% else %}
+                                                              <i class="fas fa-mobile-alt"></i>
+                                                            {% endif %}
+                                                        
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+        
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    {% endif %}
+
+                    {% endblock %}
+
+
+{% block jscript %}
+<script>
+                        
+    $(document).ready( function () {
+        $('#myDataTable').DataTable( {
+        "pageLength": 10,
+    });
+    } );
+    </script>
+
+<script type="text/javascript">
+    //console.log({% autoescape off %}{{heatmap_chats}}{% endautoescape %})
+
+    function get_cell_size() {
+        if (window.innerWidth < 1000){
+            return 8;
+        }else if (window.innerWidth < 1500){
+            return 11;
+        }else{
+            return 17;
+        }
+}
+
+    datas = {% autoescape off %}{{heatmap_chats}}{% endautoescape %};
+    var cal = new CalHeatMap();
+    cal.init({
+        itemSelector: "#cal-heatmap",
+        data: datas,
+        start: new Date(2021, 0, 1, 1),
+        itemName: ["chat", "chats"],
+        domain: "month",
+        cellSize: get_cell_size(),
+        cellPadding: 5,
+        //subDomainTextFormat: "%d",
+        domainGutter: 10,
+        label: {
+        position: "top",
+        width: 46
+        },
+        range: 12,
+        onClick: function(date, nb) {
+                $("#onClick-placeholder").html("You just clicked <br/>on <b>" +
+                    new Date(date).toDateString() + "</b> with <strong>" +
+                    (nb === null ? "unknown" : nb) + " chats </strong> "
+                );
+                console.log(JSON.stringify(date))
+            }
+    });
+    
+</script>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+<!-- templates/home.html -->
+{% extends 'base/base.html' %}
+{% load static %}
+{% load search_helper %}
+{% load bootstrap %}
+
+{% block content %}
+
+<div class="container">
+    
+    <form method="GET">
+        {{filter.form|bootstrap}}
+
+        <button type="submit" class="btn btn-primary">Search</button>
+
+    </form>
+
+
+
+    <ul>
+        {% for snippet in filter.qs %}
+            <li>
+                <a href="#">{{snippet.name}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+
+
+{% endblock content %}

@@ -1,0 +1,145 @@
+<!-- templates/home.html -->
+{% extends 'base/base.html' %}
+{% load static %}
+{% load search_helper %}
+
+{% block content %}
+<!-- Search by ...-->
+<div class="row d-flex justify-content-center">
+  <div class="col-lg-6 ">
+      <div class="card">
+          <div class="card-body">
+              <h4 class="card-title">Search in Transcript</h4>
+              <br>
+              <!-- <p class="card-title-desc">Set heights using classes like <code>.form-control-lg</code> and <code>.form-control-sm</code>.</p> -->
+              <div>
+                <div class="mb-4">
+                  <form action="{% url 'search_transcript_with_this_keyword' %}" method="POST" >
+
+                    <input type="text" name="in_transcript" class="form-control" placeholder="Enter keyword/part of sentence">
+
+
+                </div>
+                <div class="mb-4 text-right" >
+                    <input type="submit" value="Search" name="first_button"  class="btn btn-primary waves-effect waves-light">
+                  </form>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+{% if object_list %}
+<div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Total chats: {{ object_list|length }} 
+                                        </h4>
+                                        <p class="card-title-desc">
+                                            
+                                        </p>
+        
+                                        <div class="table-responsive">
+                                            <table class="table mb-0 table-hover " id="myDataTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Guest</th>
+                                                        <th>Started</th>
+                                                        <th>From Queue</th>
+                                                        <th>Operator</th>
+                                                        <th>Ended</th>
+                                                        <th>Transcript</th>
+                                                        <th>Wait</th>
+                                                        <th>Duration</th>
+                                                        <th>Protocol</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for value in object_list %}
+                                                    <tr>
+                                                        <th scope="row">{{ forloop.counter }}</th>
+                                                        <td>
+                                                            <a href="{{ value.chat_standalone_url }}" target="_blank">
+                                                                {{value.guest|truncatechars:7}}
+                                                            </a>
+                                                        </td>
+                                                        <td>{{  value.started }}</td>
+                                                        <td><a href="{% url  'get_chats_from_this_queue_using_only_the_queue_name' value.queue  %}">{{value.queue}}</a>  </td>
+                                                        <td>
+                                                            {% if value.operator %}
+                                                                <a href="">{{value.operator}}</a>
+                                                            {% endif %}
+                                                        </td>
+
+                                                        <td>{{  value.ended }}</td>
+                                                        <td><a href="{% url 'get_chat_transcript' value.chat_id %}">Transcript</a>
+                                                            {% if  value.hasReferenceQuestion %}
+                                                            &nbsp;<i class="fas fa-question-circle"></i>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>{{value.wait}}</td>
+                                                        <td>{{value.duration}}</td>
+                                                        <td>
+                                                            {% if value.protocol == "web" %}
+                                                              <i class="fas fa-2x  fa-comments"></i>
+
+                                                            {% elif  value.protocol == "twilio" %}
+
+                                                              <i class="fas fa-2x fa-sms"></i>
+                                                            {% else %}
+                                                              <i class="fas fa-mobile-alt"></i>
+                                                            {% endif %}
+                                                        
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+        
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% else %}
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title"> No Result
+                                        </h4>
+                                        <p class="card-title-desc">
+                                            No Result for with guest_id: <b> {{ guest_id}}</b> 
+                                        </p>
+        
+        
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+{% endblock %}
+
+
+{% block jscript %}
+<script>
+                        
+    $(document).ready( function () {
+        $('#myDataTable').DataTable( {
+        "pageLength": 10,
+    });
+    } );
+    </script>
+
+</script>
+
+{% endblock %}

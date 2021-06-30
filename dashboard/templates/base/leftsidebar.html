@@ -1,0 +1,114 @@
+<div class="vertical-menu">
+
+    <div data-simplebar class="h-100">
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title">Menu</li>
+
+                <li>
+                    <a href="{% url 'homepage' %}" class="waves-effect">
+                        <i class="ri-home-2-line"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-calendar-2-line"></i>
+                        <span>Report </span>
+                    </a> 
+                    <ul class="sub-menu" aria-expanded="false">
+                       <!--  <li><a href="{% url 'pivot_table_chats_per_schools' %}">Chat per schools</a></li> -->
+                        <li><a href="{% url 'get_unanswered_chats' %}" onclick="myFunction('Note: This data can take up to 2 min to generate')">Unanswered Chats</a></li>
+                        <li><a href="{% url 'daily_report' %}"  onclick="myFunction('Note: The Daily Report can take up to 2 min to generate')"><i class="ri-timer-line"></i>Daily Report</a></li>
+                        <li><a href="{% url 'pivotTableOperatorAssignment' %}" onclick="myFunction('Note: This Pivot Table can take up to 2 min to generate')"><i class="ri-timer-line"></i>Operator Assignments</a></li>
+                        <li><a href="{% url 'download_excel_file_Operator_Assignment' %}"  onclick="myFunction('Note: The Report can take up to 2 min to generate')"><i class="ri-download-line"></i>Download Operator Assignments</a></li>
+                        <li><a href="{% url 'chord_diagram' %}"><i class="ri-file-chart-line"></i>Chord Diagram</a></li>
+                        <li><a href="{% url 'download_in_xslx_report_for_this_year' %}"><i class="ri-download-line"></i>Operator report for this year</a></li>
+                        <script>
+                            function myFunction(msg) {
+                              alert(msg);
+                            }
+                            </script>   
+                         
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="{% url 'get_list_of_users' %}"  class=" waves-effect">
+                        <i class="ri-building-4-line"></i>
+                        <span>Operators</span>
+                    </a>
+                </li>
+
+                
+                <li>
+                    <a href="{% url 'get_list_of_queues' %}" class=" waves-effect">
+                        <i class="ri-building-4-line"></i>
+                        <span>Queues</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'get_list_of_profiles' %}" class=" waves-effect">
+                        <i class="ri-building-4-line"></i>
+                        <span>Profiles</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="{% url 'get_list_of_faqs' %}" class=" waves-effect">
+                        <i class="ri-building-4-line"></i>
+                        <span>FAQs</span>
+                    </a>
+                </li>
+                <!--
+                <li>
+                    <a href=""  class=" waves-effect">
+                        <i class="ri-building-4-line"></i>
+                        <span>Reference Question</span>
+                    </a>
+                </li>
+            -->
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-store-2-line"></i>
+                        <span>Search</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false"> 
+                        <li><a href="{% url 'get_chats_from_yesterday' %}">Yesterday</a></li>
+                        <li><a href="{% url 'get_chats_from_yesterday_sample_size' %}">20% Sample of Yesterday</a></li>
+                        <li><a href="{% url 'get_chats_from_yesterday_from_mentees' %}">Mentees (Yesterday)</a></li>
+                        <li><a href="{% url 'get_page_chat_for_date_range' %}">Search between two dates</a></li> 
+                        <li><a href="{% url 'search_chats_with_this_guestID' %}">Search chat with GuestID</a></li> 
+                        <li><a href="{% url 'search_transcript_with_this_keyword' %}">Search in transcript</a></li> 
+                        <li><a href="{% url 'search_transcript_that_was_transferred' %}">Search chat that was transfered</a></li> 
+                        <li><a href="{% url 'search_transcript_that_contains_file_transfer' %}">Search chat contains file transfer</a></li> 
+                        
+
+                        
+                    </ul>
+                </li>
+
+                <!--
+
+                
+                <li>
+                    <a href=""  class=" waves-effect">
+                        <i class="ri-building-4-line"></i>
+                        <span>Surveys</span>
+                    </a>
+                </li>
+                -->
+
+
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>

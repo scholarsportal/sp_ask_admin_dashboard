@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Ask School chord diagram  tests - September to November , 2020</title>
+
+
+  <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+
+    body { background-color: #30303d; color: #fff; }
+    #chartdiv {
+    width: 100%;
+    height: 800px;
+    }
+  </style>
+
+</head>
+<body>
+
+    <h3><a href="{% url 'homepage' %}">Back to Dashboard</a></h3>
+<!-- partial:index.partial.html -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/dark.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<div id="chartdiv"></div>
+<!-- partial -->
+<script>
+
+
+/**
+ * ---------------------------------------
+ * This demo was created using amCharts 4.
+ * 
+ * For more information visit:
+ * https://www.amcharts.com/
+ * 
+ * Documentation is available at:
+ * https://www.amcharts.com/docs/v4/
+ * ---------------------------------------
+ */
+
+// Themes begin
+am4core.useTheme(am4themes_dark);
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+var chart = am4core.create("chartdiv", am4charts.ChordDiagram);
+
+// colors of main characters
+chart.colors.saturation = 1;
+chart.colors.step = 9;
+var colors = {
+    MSKIX:chart.colors.next(),
+    DATAIX:chart.colors.next(),
+    PiterIX:chart.colors.next(),
+    WIX:chart.colors.next(),
+    CloudX:chart.colors.next(),
+    SFOIX:chart.colors.next(),
+    SeaIX:chart.colors.next(),
+    RedIX:chart.colors.next(),
+    SibirIX:chart.colors.next(),
+    
+}
+
+// data was provided by: https://www.reddit.com/user/notrudedude
+
+
+
+chart.data = [
+    // node property fields take data from data items where they are first mentioned, that's 
+    // why we add empty data items at the beginning and set colors here
+
+{"from":"Algoma","to":"Mentee","value":33},{"from":"Algoma","to":"Brock","value":11},{"from":"Algoma","to":"Carleton","value":10},{"from":"Algoma","to":"Guelph","value":10},{"from":"Algoma","to":"Ryerson","value":10},{"from":"Algoma","to":"York","value":7},{"from":"Algoma","to":"McMaster","value":6},{"from":"Algoma","to":"Ontario Tech","value":5},{"from":"Algoma","to":"Ottawa","value":4},{"from":"Algoma","to":"Queens","value":4},{"from":"Algoma","to":"Guelph-Humber","value":3},{"from":"Algoma","to":"Lakehead","value":3},{"from":"Algoma","to":"Laurentian","value":3},{"from":"Algoma","to":"Algoma","value":1},{"from":"Algoma","to":"OCAD","value":1},{"from":"Algoma","to":"Saint-Paul","value":1},{"from":"Algoma","to":"Toronto","value":1},{"from":"Algoma","to":"Western","value":1},{"from":"Brock","to":"Mentee","value":98},{"from":"Brock","to":"Brock","value":88},{"from":"Brock","to":"York","value":36},{"from":"Brock","to":"Guelph","value":31},{"from":"Brock","to":"Ryerson","value":20},{"from":"Brock","to":"Western","value":20},{"from":"Brock","to":"Ottawa","value":14},{"from":"Brock","to":"McMaster","value":12},{"from":"Brock","to":"Queens","value":12},{"from":"Brock","to":"Lakehead","value":10},{"from":"Brock","to":"Carleton","value":7},{"from":"Brock","to":"Ontario Tech","value":7},{"from":"Brock","to":"Laurentian","value":5},{"from":"Brock","to":"Toronto","value":4},{"from":"Brock","to":"Saint-Paul","value":3},{"from":"Brock","to":"Guelph-Humber","value":2},{"from":"Brock","to":"Algoma","value":1},{"from":"Brock","to":"OCAD","value":1},{"from":"Brock","to":"Scholars Portal","value":1},{"from":"Carleton","to":"Carleton","value":219},{"from":"Carleton","to":"Mentee","value":176},{"from":"Carleton","to":"York","value":80},{"from":"Carleton","to":"McMaster","value":68},{"from":"Carleton","to":"Western","value":67},{"from":"Carleton","to":"Ottawa","value":21},{"from":"Carleton","to":"Ryerson","value":16},{"from":"Carleton","to":"Brock","value":15},{"from":"Carleton","to":"Ontario Tech","value":15},{"from":"Carleton","to":"Guelph","value":14},{"from":"Carleton","to":"Queens","value":12},{"from":"Carleton","to":"Guelph-Humber","value":10},{"from":"Carleton","to":"Lakehead","value":8},{"from":"Carleton","to":"Saint-Paul","value":5},{"from":"Carleton","to":"Scholars Portal","value":5},{"from":"Carleton","to":"Toronto","value":5},{"from":"Carleton","to":"Algoma","value":3},{"from":"Carleton","to":"Laurentian","value":1},{"from":"Guelph","to":"Guelph","value":275},{"from":"Guelph","to":"Mentee","value":129},{"from":"Guelph","to":"Guelph-Humber","value":38},{"from":"Guelph","to":"Queens","value":34},{"from":"Guelph","to":"Ryerson","value":31},{"from":"Guelph","to":"McMaster","value":26},{"from":"Guelph","to":"Brock","value":25},{"from":"Guelph","to":"Western","value":25},{"from":"Guelph","to":"York","value":24},{"from":"Guelph","to":"Carleton","value":17},{"from":"Guelph","to":"Lakehead","value":16},{"from":"Guelph","to":"Ottawa","value":16},{"from":"Guelph","to":"Ontario Tech","value":14},{"from":"Guelph","to":"Saint-Paul","value":7},{"from":"Guelph","to":"Toronto","value":4},{"from":"Guelph","to":"OCAD","value":3},{"from":"Guelph","to":"Algoma","value":2},{"from":"Guelph","to":"Scholars Portal","value":2},{"from":"Guelph-Humber","to":"Mentee","value":53},{"from":"Guelph-Humber","to":"Guelph","value":48},{"from":"Guelph-Humber","to":"York","value":18},{"from":"Guelph-Humber","to":"Western","value":16},{"from":"Guelph-Humber","to":"McMaster","value":10},{"from":"Guelph-Humber","to":"Guelph-Humber","value":9},{"from":"Guelph-Humber","to":"Queens","value":8},{"from":"Guelph-Humber","to":"Ryerson","value":7},{"from":"Guelph-Humber","to":"Brock","value":4},{"from":"Guelph-Humber","to":"Carleton","value":3},{"from":"Guelph-Humber","to":"Ontario Tech","value":3},{"from":"Guelph-Humber","to":"Ottawa","value":3},{"from":"Guelph-Humber","to":"Lakehead","value":1},{"from":"Guelph-Humber","to":"Saint-Paul","value":1},{"from":"Lakehead","to":"Mentee","value":138},{"from":"Lakehead","to":"Lakehead","value":71},{"from":"Lakehead","to":"York","value":54},{"from":"Lakehead","to":"Guelph","value":50},{"from":"Lakehead","to":"Ryerson","value":33},{"from":"Lakehead","to":"Brock","value":28},{"from":"Lakehead","to":"Western","value":28},{"from":"Lakehead","to":"Ontario Tech","value":20},{"from":"Lakehead","to":"Queens","value":18},{"from":"Lakehead","to":"McMaster","value":17},{"from":"Lakehead","to":"Carleton","value":16},{"from":"Lakehead","to":"Guelph-Humber","value":9},{"from":"Lakehead","to":"Toronto","value":9},{"from":"Lakehead","to":"Ottawa","value":6},{"from":"Lakehead","to":"Saint-Paul","value":6},{"from":"Lakehead","to":"Laurentian","value":5},{"from":"Lakehead","to":"Scholars Portal","value":1},{"from":"Laurentian","to":"Mentee","value":84},{"from":"Laurentian","to":"Laurentian","value":46},{"from":"Laurentian","to":"Ottawa","value":34},{"from":"Laurentian","to":"York","value":30},{"from":"Laurentian","to":"Guelph","value":20},{"from":"Laurentian","to":"Western","value":20},{"from":"Laurentian","to":"Brock","value":16},{"from":"Laurentian","to":"Ryerson","value":16},{"from":"Laurentian","to":"Queens","value":10},{"from":"Laurentian","to":"Lakehead","value":9},{"from":"Laurentian","to":"Saint-Paul","value":9},{"from":"Laurentian","to":"McMaster","value":8},{"from":"Laurentian","to":"Toronto","value":5},{"from":"Laurentian","to":"Guelph-Humber","value":4},{"from":"Laurentian","to":"Ontario Tech","value":3},{"from":"Laurentian","to":"Carleton","value":2},{"from":"Laurentian","to":"OCAD","value":1},{"from":"Laurentian","to":"Scholars Portal","value":1},{"from":"McMaster","to":"McMaster","value":322},{"from":"McMaster","to":"Mentee","value":227},{"from":"McMaster","to":"York","value":83},{"from":"McMaster","to":"Guelph","value":79},{"from":"McMaster","to":"Western","value":67},{"from":"McMaster","to":"Carleton","value":56},{"from":"McMaster","to":"Ryerson","value":52},{"from":"McMaster","to":"Queens","value":38},{"from":"McMaster","to":"Brock","value":35},{"from":"McMaster","to":"Ontario Tech","value":27},{"from":"McMaster","to":"Toronto","value":20},{"from":"McMaster","to":"Lakehead","value":16},{"from":"McMaster","to":"Guelph-Humber","value":11},{"from":"McMaster","to":"Ottawa","value":11},{"from":"McMaster","to":"Laurentian","value":9},{"from":"McMaster","to":"Scholars Portal","value":5},{"from":"McMaster","to":"Saint-Paul","value":3},{"from":"McMaster","to":"Algoma","value":2},{"from":"McMaster","to":"OCAD","value":1},{"from":"OCAD","to":"Guelph","value":2},{"from":"OCAD","to":"Ryerson","value":2},{"from":"OCAD","to":"Carleton","value":1},{"from":"OCAD","to":"Lakehead","value":1},{"from":"OCAD","to":"McMaster","value":1},{"from":"OCAD","to":"Mentee","value":1},{"from":"OCAD","to":"Ontario Tech","value":1},{"from":"OCAD","to":"Saint-Paul","value":1},{"from":"OCAD","to":"Toronto","value":1},{"from":"OCAD","to":"Western","value":1},{"from":"OCAD","to":"York","value":1},{"from":"Ontario Tech","to":"Mentee","value":88},{"from":"Ontario Tech","to":"Ontario Tech","value":72},{"from":"Ontario Tech","to":"Guelph","value":37},{"from":"Ontario Tech","to":"York","value":36},{"from":"Ontario Tech","to":"Western","value":18},{"from":"Ontario Tech","to":"McMaster","value":17},{"from":"Ontario Tech","to":"Ryerson","value":15},{"from":"Ontario Tech","to":"Carleton","value":14},{"from":"Ontario Tech","to":"Queens","value":12},{"from":"Ontario Tech","to":"Guelph-Humber","value":10},{"from":"Ontario Tech","to":"Ottawa","value":9},{"from":"Ontario Tech","to":"Toronto","value":8},{"from":"Ontario Tech","to":"Algoma","value":4},{"from":"Ontario Tech","to":"Lakehead","value":4},{"from":"Ontario Tech","to":"Laurentian","value":3},{"from":"Ontario Tech","to":"Saint-Paul","value":3},{"from":"Ontario Tech","to":"Brock","value":2},{"from":"Ontario Tech","to":"OCAD","value":2},{"from":"Ontario Tech","to":"Scholars Portal","value":1},{"from":"Ottawa","to":"Ottawa","value":505},{"from":"Ottawa","to":"Mentee","value":138},{"from":"Ottawa","to":"York","value":52},{"from":"Ottawa","to":"Saint-Paul","value":43},{"from":"Ottawa","to":"Ryerson","value":25},{"from":"Ottawa","to":"Queens","value":23},{"from":"Ottawa","to":"Carleton","value":22},{"from":"Ottawa","to":"Guelph","value":22},{"from":"Ottawa","to":"McMaster","value":17},{"from":"Ottawa","to":"Brock","value":16},{"from":"Ottawa","to":"Laurentian","value":16},{"from":"Ottawa","to":"Ontario Tech","value":12},{"from":"Ottawa","to":"Western","value":12},{"from":"Ottawa","to":"Lakehead","value":5},{"from":"Ottawa","to":"OCAD","value":4},{"from":"Ottawa","to":"Toronto","value":3},{"from":"Ottawa","to":"Algoma","value":2},{"from":"Ottawa","to":"Scholars Portal","value":2},{"from":"Ottawa","to":"Guelph-Humber","value":1},{"from":"Queens","to":"Queens","value":236},{"from":"Queens","to":"Mentee","value":136},{"from":"Queens","to":"Guelph","value":55},{"from":"Queens","to":"York","value":41},{"from":"Queens","to":"McMaster","value":37},{"from":"Queens","to":"Ryerson","value":33},{"from":"Queens","to":"Western","value":26},{"from":"Queens","to":"Brock","value":20},{"from":"Queens","to":"Carleton","value":20},{"from":"Queens","to":"Ottawa","value":15},{"from":"Queens","to":"Ontario Tech","value":14},{"from":"Queens","to":"Lakehead","value":9},{"from":"Queens","to":"Toronto","value":7},{"from":"Queens","to":"Laurentian","value":5},{"from":"Queens","to":"Guelph-Humber","value":4},{"from":"Queens","to":"OCAD","value":4},{"from":"Queens","to":"Saint-Paul","value":4},{"from":"Queens","to":"Scholars Portal","value":2},{"from":"Queens","to":"Algoma","value":1},{"from":"Ryerson","to":"Ryerson","value":1018},{"from":"Ryerson","to":"Mentee","value":353},{"from":"Ryerson","to":"York","value":55},{"from":"Ryerson","to":"Guelph","value":42},{"from":"Ryerson","to":"McMaster","value":40},{"from":"Ryerson","to":"Western","value":29},{"from":"Ryerson","to":"Carleton","value":23},{"from":"Ryerson","to":"Queens","value":23},{"from":"Ryerson","to":"Ottawa","value":20},{"from":"Ryerson","to":"Ontario Tech","value":10},{"from":"Ryerson","to":"Toronto","value":10},{"from":"Ryerson","to":"Brock","value":9},{"from":"Ryerson","to":"Saint-Paul","value":7},{"from":"Ryerson","to":"OCAD","value":5},{"from":"Ryerson","to":"Laurentian","value":3},{"from":"Ryerson","to":"Lakehead","value":2},{"from":"Ryerson","to":"Scholars Portal","value":2},{"from":"Ryerson","to":"Guelph-Humber","value":1},{"from":"Saint-Paul","to":"Mentee","value":11},{"from":"Saint-Paul","to":"Ottawa","value":11},{"from":"Saint-Paul","to":"York","value":6},{"from":"Saint-Paul","to":"Saint-Paul","value":4},{"from":"Saint-Paul","to":"Brock","value":1},{"from":"Saint-Paul","to":"Guelph","value":1},{"from":"Saint-Paul","to":"McMaster","value":1},{"from":"Saint-Paul","to":"Queens","value":1},{"from":"Saint-Paul","to":"Scholars Portal","value":1},{"from":"Saint-Paul","to":"Toronto","value":1},{"from":"Saint-Paul","to":"Western","value":1},{"from":"Scholars Portal","to":"Ryerson","value":7},{"from":"Scholars Portal","to":"Western","value":4},{"from":"Scholars Portal","to":"McMaster","value":3},{"from":"Scholars Portal","to":"Ontario Tech","value":2},{"from":"Scholars Portal","to":"Carleton","value":1},{"from":"Scholars Portal","to":"Guelph","value":1},{"from":"Scholars Portal","to":"OCAD","value":1},{"from":"Scholars Portal","to":"Ottawa","value":1},{"from":"Scholars Portal","to":"Queens","value":1},{"from":"Scholars Portal","to":"Scholars Portal","value":1},{"from":"Toronto","to":"Toronto","value":3346},{"from":"Toronto","to":"Mentee","value":255},{"from":"Toronto","to":"York","value":77},{"from":"Toronto","to":"Ryerson","value":57},{"from":"Toronto","to":"Western","value":50},{"from":"Toronto","to":"Guelph","value":34},{"from":"Toronto","to":"McMaster","value":32},{"from":"Toronto","to":"Brock","value":30},{"from":"Toronto","to":"Ontario Tech","value":29},{"from":"Toronto","to":"Queens","value":23},{"from":"Toronto","to":"Lakehead","value":17},{"from":"Toronto","to":"Ottawa","value":16},{"from":"Toronto","to":"Carleton","value":14},{"from":"Toronto","to":"Saint-Paul","value":12},{"from":"Toronto","to":"Algoma","value":10},{"from":"Toronto","to":"Scholars Portal","value":9},{"from":"Toronto","to":"Guelph-Humber","value":5},{"from":"Toronto","to":"OCAD","value":5},{"from":"Toronto","to":"Laurentian","value":1},{"from":"Western","to":"Western","value":924},{"from":"Western","to":"Mentee","value":280},{"from":"Western","to":"Ryerson","value":30},{"from":"Western","to":"Guelph","value":27},{"from":"Western","to":"Carleton","value":17},{"from":"Western","to":"York","value":17},{"from":"Western","to":"McMaster","value":15},{"from":"Western","to":"Queens","value":15},{"from":"Western","to":"Ottawa","value":14},{"from":"Western","to":"Brock","value":11},{"from":"Western","to":"Ontario Tech","value":7},{"from":"Western","to":"Saint-Paul","value":6},{"from":"Western","to":"Toronto","value":5},{"from":"Western","to":"Guelph-Humber","value":4},{"from":"Western","to":"Scholars Portal","value":4},{"from":"Western","to":"Lakehead","value":2},{"from":"Western","to":"OCAD","value":2},{"from":"Western","to":"Laurentian","value":1},{"from":"York","to":"York","value":158},{"from":"York","to":"Mentee","value":55},{"from":"York","to":"Ryerson","value":26},{"from":"York","to":"Brock","value":17},{"from":"York","to":"Guelph","value":16},{"from":"York","to":"McMaster","value":14},{"from":"York","to":"Ontario Tech","value":9},{"from":"York","to":"Lakehead","value":7},{"from":"York","to":"Western","value":7},{"from":"York","to":"Carleton","value":6},{"from":"York","to":"Ottawa","value":6},{"from":"York","to":"Queens","value":5},{"from":"York","to":"Scholars Portal","value":5},{"from":"York","to":"Algoma","value":4},{"from":"York","to":"Saint-Paul","value":4},{"from":"York","to":"Guelph-Humber","value":3},{"from":"York","to":"Toronto","value":2},{"from":"York","to":"OCAD","value":1}
+
+]
+    
+
+chart.dataFields.fromName = "from";
+chart.dataFields.toName = "to";
+chart.dataFields.value = "value";
+
+
+chart.nodePadding = 0.5;
+chart.minNodeSize = 0.01;
+chart.startAngle = 80;
+chart.endAngle = chart.startAngle + 360;
+chart.sortBy = "value";
+chart.fontSize = 10;
+
+var nodeTemplate = chart.nodes.template;
+nodeTemplate.readerTitle = "Click to show/hide or drag to rearrange";
+nodeTemplate.showSystemTooltip = true;
+nodeTemplate.propertyFields.fill = "color";
+nodeTemplate.tooltipText = "{name}'s chats: {total}";
+
+// when rolled over the node, make all the links rolled-over
+nodeTemplate.events.on("over", function(event) {    
+    var node = event.target;
+    node.outgoingDataItems.each(function(dataItem) {
+        if(dataItem.toNode){
+            dataItem.link.isHover = true;
+            dataItem.toNode.label.isHover = true;
+        }
+    })
+    node.incomingDataItems.each(function(dataItem) {
+        if(dataItem.fromNode){
+            dataItem.link.isHover = true;
+            dataItem.fromNode.label.isHover = true;
+        }
+    }) 
+
+    node.label.isHover = true;   
+})
+
+// when rolled out from the node, make all the links rolled-out
+nodeTemplate.events.on("out", function(event) {
+    var node = event.target;
+    node.outgoingDataItems.each(function(dataItem) {        
+        if(dataItem.toNode){
+            dataItem.link.isHover = false;                
+            dataItem.toNode.label.isHover = false;
+        }
+    })
+    node.incomingDataItems.each(function(dataItem) {
+        if(dataItem.fromNode){
+            dataItem.link.isHover = false;
+           dataItem.fromNode.label.isHover = false;
+        }
+    })
+
+    node.label.isHover = false;
+})
+
+var label = nodeTemplate.label;
+label.relativeRotation = 90;
+
+label.fillOpacity = 0.4;
+let labelHS = label.states.create("hover");
+labelHS.properties.fillOpacity = 1;
+
+nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+// this adapter makes non-main character nodes to be filled with color of the main character which he/she kissed most
+nodeTemplate.adapter.add("fill", function(fill, target) {
+    let node = target;
+    let counters = {};
+    let mainChar = false;
+    node.incomingDataItems.each(function(dataItem) {
+        if(colors[dataItem.toName]){
+            mainChar = true;
+        }
+
+        if(isNaN(counters[dataItem.fromName])){
+            counters[dataItem.fromName] = dataItem.value;
+        }
+        else{
+            counters[dataItem.fromName] += dataItem.value;
+        }
+    })
+    if(mainChar){
+        return fill;
+    }
+
+    let count = 0;
+    let color;
+    let biggest = 0;
+    let biggestName;
+
+    for(var name in counters){
+        if(counters[name] > biggest){
+            biggestName = name;
+            biggest = counters[name]; 
+        }        
+    }
+    if(colors[biggestName]){
+        fill = colors[biggestName];
+    }
+  
+    return fill;
+})
+
+// link template
+var linkTemplate = chart.links.template;
+linkTemplate.strokeOpacity = 0;
+linkTemplate.fillOpacity = 0.15;
+linkTemplate.tooltipText = "chat from {fromName} picked up by {toName}:{value.value}";
+
+var hoverState = linkTemplate.states.create("hover");
+hoverState.properties.fillOpacity = 0.7;
+hoverState.properties.strokeOpacity = 0.7;
+
+// data credit label
+var creditLabel = chart.chartContainer.createChild(am4core.TextLink);
+creditLabel.text = "Data source: Spizer";
+creditLabel.url = "";
+creditLabel.y = am4core.percent(99);
+creditLabel.x = am4core.percent(99);
+creditLabel.horizontalCenter = "right";
+creditLabel.verticalCenter = "bottom";
+
+var titleImage = chart.chartContainer.createChild(am4core.Image);
+//titleImage.href = "//www.amcharts.com/wp-content/uploads/2018/11/whokissed.png";
+titleImage.x = 30
+titleImage.y = 30;
+titleImage.width = 200;
+titleImage.height = 200;
+
+</script>
+
+</body>
+</html>

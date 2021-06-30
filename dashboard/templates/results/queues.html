@@ -1,0 +1,78 @@
+<!-- templates/home.html -->
+{% extends 'base/base.html' %}
+{% load static %}
+{% load search_helper %}
+
+{% block content %}
+
+{% if object_list %}
+
+<div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Operator</h4>
+        
+                                        <div class="table-responsive">
+                                            <table class="table mb-0 table-hover " id="myDataTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Queue Name</th>
+                                                        <th>Profile</th>
+                                                        <th>School</th>
+                                                        <th>Image</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for value in object_list %}
+                                                    <tr>
+                                                        <td scope="row">{{ forloop.counter }}</td>
+                                                        <td>{{value.name}}</td>
+                                                        <td>
+                                                                <a href="{% url 'get_this_profile' queue_id=value.id %}">{{value.name }}</a>  
+                                                        
+                                                        </td>
+                                                        <td>
+                                                            <a href="{% url  'get_chats_for_this_school_using_this_queue_name' value.name  %}">{% find_school_from_queue_name value.name %}</a>  
+                                                    
+                                                        </td>
+                                                        <td>
+                                                            {% if value.avatar %}
+                                                            <img class="d-flex mr-3 rounded-circle" src="{{value.avatar}}" alt="Generic placeholder image" height="40"> 
+                                                            {% endif %}
+                                                            <div class="media-body chat-user-box overflow-hidden">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    {% endif %}
+                    
+{% endblock %}
+
+{% block jscript %}
+
+<script>
+                        
+    $(document).ready( function () {
+        $('#myDataTable').DataTable( {
+      "pageLength": 10
+    });
+    } );
+
+
+
+ </script>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+<h1>Books</h1>
+
+<table border="0">
+<thead>
+    <tr>
+    <th>id</th>
+    <th>Messages</th>
+    <th>Chat.lh3id</th>
+    <th>Reference Question</th>
+    </tr>
+</thead>
+<tbody>
+    {% for transcript in object_list %}
+    <tr>
+    <td>{{ transcript.id }}</td>
+    <td>{{ transcript.message|safe }}</td>
+    <td>{{ transcript.chat.lh3id }}</td>
+    <td>
+        {% if transcript.referenceQuestion %}
+            <a href="{% url 'remove_reference_question' transcript.id  %}">Remove</a>
+        {% else  %}
+            <a href="{% url 'identify_reference_question' transcript.id  %}">Add as Reference Question</a>
+        {% endif %}
+    </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>

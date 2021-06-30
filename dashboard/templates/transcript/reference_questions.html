@@ -1,0 +1,73 @@
+<!-- templates/home.html -->
+{% extends 'base/base.html' %}
+{% load static %}
+{% load search_helper %}
+
+{% block content %}
+
+{% if object_list %}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Transcript: 
+                                        </h4>
+                                        <p class="card-title-desc">
+                                            <a href="{% url 'download_reference_questions' %}">
+                                                Download this in Excel  &nbsp; <i class="fas fa-download"></i>   
+                                            </a>
+                                           
+                                        </p>
+        
+                                        <div class="table-responsive">
+                                            <table class="table mb-0 table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>School</th>
+                                                        <th>Date</th>
+                                                        <th>Operator</th>
+                                                        <th style="max-width:200px">Message</th>
+                                                        <th>Reference Question</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for transcript in object_list %}
+                                                    <tr>
+                                                        <td scope="row">{{ forloop.counter }}</td>
+                                                        <td>{% if transcript.school.id %}
+                                                            <a href="{% url 'school_detail' transcript.school.id  %}">{{transcript.school.name}}</a>  
+                                                            {% else %}
+                                                                {{transcript.school.name}}
+                                                            {% endif %}</td>
+                                                        <td>{{transcript.chat_date |date:'y-m-d H:i'}}</td>
+                                                        
+                                                        <td>
+                                                            {% if transcript.operator %}
+                                                              {{ transcript.operator.username }}
+                                                            {% endif %}
+                                                        
+                                                        </td>
+                                                        <td>{{ transcript.message|safe|truncatechars:250 }}</td>
+                                                        <td>
+                                                            {% if transcript.referenceQuestion %}
+                                                                <a href="{% url 'remove_reference_question' transcript.id  %}">Remove</a>
+                                                            {% else  %}
+                                                                <a href="{% url 'identify_reference_question' transcript.id  %}">Add as Reference Question</a>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    {% endif %}
+{% endblock %}

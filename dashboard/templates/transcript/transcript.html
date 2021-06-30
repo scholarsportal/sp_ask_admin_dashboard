@@ -1,0 +1,60 @@
+<!-- templates/home.html -->
+{% extends 'base/base.html' %}
+{% load static %}
+{% load search_helper %}
+
+{% block content %}
+
+{% if object_list %}
+<div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Transcript from: {{queue_name | upper}} -> {{started_date}} 
+                                        </h4>
+                                        <p class="card-title-desc">
+                                            <a href="{% url 'download_transcript_in_html' chat_id=chat_id %}" class="btn btn-primary btn-sm">Download in HTML</a>
+                                        </p>
+        
+                                        <div class="table-responsive">
+                                            <table class="table mb-0 table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>id</th>
+                                                        <th>Guest</th>
+                                                        <th>Message</th>
+                                                        <th>Reference Question</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for transcript in object_list %}
+                                                    <tr>
+                                                        <td>{{ forloop.counter }}</td>
+                                                        <td>
+                                                            <a href="{{ transcript.chat_standalone_url}}" target="_blank">
+                                                                {{ transcript.guest |truncatechars:7}}
+                                                            </a>
+                                                        </td>
+                                                        <td>{{ transcript.message | safe |truncatechars:350 }}</td>
+                                                        <td>
+                                                            {% if transcript.referenceQuestion %}
+                                                                <a href="" style="color:red;">Remove</a>
+                                                            {% else  %}
+                                                                <a href=""><!-- Add as Reference Question --></a>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    {% endif %}
+{% endblock %}

@@ -1,0 +1,299 @@
+<!-- templates/home.html -->
+{% extends 'base/base.html' %}
+{% load static %}
+{% load search_helper %}
+
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
+
+
+
+{% if object_list %}
+<div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">{{total_survey}} surveys:  
+                                        </h4>
+                                        <p class="card-title-desc">
+                                            <a href="{% url 'survey_reviewed' %}">
+                                                Download this in Excel  &nbsp; <i class="fas fa-download"></i>   
+                                            </a>
+                                        </p>
+        
+                                        <div class="table-responsive">
+                                            <table class="table mb-0 table-hover"  id="myDataTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>LimeSurvey ID#</th>
+                                                        <th>Date</th>
+                                                        <th>School</th>
+                                                        <th>Feedback</th>
+                                                        <th>Link</th>
+                                                        <th>Update Feedback</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for value in object_list %}
+                                                    <tr>
+                                                        <td scope="row">{{ value.limesurveyID}}</td>
+                                                        <td>{{ value.feedback_started_date|date:'Y-m-d H:i' }}</td>
+                                                        <td>{{value.school_name_in_survey}}</td>
+                                                        <td>
+                                                           {{value.feedback|wordwrap:80|linebreaksbr}}
+                                                        </td>
+                                                        <td><a href="{%  url 'review_this_feedback' value.id   %}">Link
+                                                            {% if  value.is_reviewed %}
+                                                            &nbsp;<i class="fas fa-question-circle"></i>
+                                                            {% endif %}
+                                                                    </a>
+                                                        </td>
+                                                        <td> 
+
+                                                            <form method="post" id="post-text" method="post">
+                                                                {% csrf_token %}
+                                                                
+                                                                <label for="feature">feature</label>
+                                                                <input type="checkbox" name="feature" id="id_feature" {% if value.feature %} checked {% endif %}> 
+                                                                <label for="training">training</label>
+                                                                <input type="checkbox" name="training" id="id_training" {% if value.training %} checked {% endif %}> 
+                                                                <label for="covid19">covid19</label>
+                                                                <input type="checkbox" name="covid19" id="id_covid19" {% if value.covid19 %} checked {% endif %}> 
+                                                                <label for="distance">distance</label>
+                                                                <input type="checkbox" name="distance" id="id_distance" {% if value.distance %} checked {% endif %}> <br>
+
+                                                                <label for="operator_present">operator_present</label>
+                                                                <input type="checkbox" name="operator_present" id="id_operator_present" {% if value.operator_present %} checked {% endif %}> 
+                                                                <label for="operator_present_indirect">operator_present_indirect</label>
+                                                                <input type="checkbox" name="operator_present_indirect" id="operator_present_indirect" {% if value.operator_present_indirect %} checked {% endif %}>
+                                                                <label for="school_present">school_present</label>
+                                                                <input type="checkbox" name="school_present" id="id_school_present" {% if value.school_present %} checked {% endif %}> <br>
+                                                                <label for="guest_name_present">guest_name_present</label>
+                                                                <input type="checkbox" name="guest_name_present" id="id_guest_name_present" {% if value.guest_name_present %} checked {% endif %}> 
+                                                                <label for="follow_up">follow_up</label>
+                                                                <input type="checkbox" name="follow_up" id="id_follow_up" {% if value.follow_up %} checked {% endif %}>
+                                                                <label for="social_media">social_media</label>
+                                                                <input type="checkbox" name="social_media" id="id_social_media" {% if value.social_media %} checked {% endif %}> <br>
+                                                                <label for="was_read_but_neutral">was_read_but_neutral</label>
+                                                                <input type="checkbox" name="was_read_but_neutral" id="id_was_read_but_neutral" {% if value.was_read_but_neutral %} checked {% endif %}>
+                                                                <br/>
+                                                                <label for="lh3id">lh3id</label>
+                                                                <input type="text" name="lh3id" id="id_lh3id" {% if value.lh3id %} placeholder="{% if value.lh3id%} {{value.lh3id |safe}} {% else %} 123 {% endif %}" {% endif %}>
+                                                                
+                                                                <input type="hidden" name="key" id="id_key" value={{value.id|safe}}> <br>
+                                                            
+                                                                <button  class="btn btn-info btn-sm" id="post-form"> Send Request</button>
+                                                        </form>
+                                                        
+                                                    </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+
+
+
+
+                                        </div>
+        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    {% endif %}
+
+
+
+
+                    {% if chats %}
+                    <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title">Last 200 chats on the service - verified on 
+                                                                <span class="badge badge-soft-success font-size-11"><i class="mdi mdi-menu-up"> </i> 01/30/2021 - 20:09:33  </span>
+                                                            </h4>
+                                                            <p class="card-title-desc">
+                                                                
+                                                            </p>
+                            
+                                                            <div class="table-responsive">
+                                                                <table class="table mb-0 table-hover " id="myDataTableChats">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>#</th>
+                                                                            <th>Guest</th>
+                                                                            <th>Started</th>
+                                                                            <th>From School</th>
+                                                                            <th>Operator</th>
+                                                                            <th>Ended</th>
+                                                                            <th>Transcript</th>
+                                                                            <th>lh3id</th>
+                                                                            <th>Wait</th>
+                                                                            <th>Duration</th>
+                                                                            <th>Protocol</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {% for value in chats %}
+                                                                        <tr>
+                                                                            <th scope="row">{{ forloop.counter }}</th>
+                                                                            <td>
+                                                                                <a href="{% get_new_window_url_for_transcript value.lh3id  %}" target="_blank">
+                                                                                    {{value.guest|truncatechars:7}}
+                                                                                </a>
+                                                                            </td>
+                                                                            <td>{{value.started |date:'Y-m-d H:i'}}</td>
+                                                                            <td><a href="{% url 'school_detail' value.school.id  %}">{{value.school.name}}</a>  </td>
+                                                                            <td>
+                                                                                {% if value.operator %}
+                                                                                    <a href="{% url 'operator_detail' value.operator.id  %}">{{value.operator.username}}</a>
+                                                                                {% endif %}
+                                                                            </td>
+                    
+                                                                            <td>{{value.ended |date:'Y-m-d H:i'}}</td>
+                                                                            <td><a href="{% url 'transcript_by_chat' value.id  %}">Transcript</a>
+                                                                                {% if  value.hasReferenceQuestion %}
+                                                                                &nbsp;<i class="fas fa-question-circle"></i>
+                                                                                {% endif %}
+                                                                            </td>
+                                                                            <td>{{value.lh3id |safe }}</td>
+                                                                            <td>{{value.wait}}</td>
+                                                                            <td>{% get_duration_from_2_timestamps value.started value.ended  %}</td>
+                                                                            <td>
+                                                                                {% if value.protocol == "web" %}
+                                                                                  <i class="fas fa-2x  fa-comments"></i>
+                    
+                                                                                {% elif  value.protocol == "twilio" %}
+                    
+                                                                                  <i class="fas fa-2x fa-sms"></i>
+                                                                                {% else %}
+                                                                                  <i class="fas fa-mobile-alt"></i>
+                                                                                {% endif %}
+                                                                            
+                                                                            </td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                            
+                    
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                    
+                    
+                    
+                                        {% endif %}
+
+
+
+                    <script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+                    <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+                    <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+                    <script>
+
+
+
+                        
+$(document).ready( function () {
+    $('#myDataTable').DataTable(
+        {"pageLength": 25}
+    );
+    $('#myDataTableChats').DataTable(
+        {"pageLength": 25}
+    );
+} );
+
+
+
+$('#post-texte').on('submit',function(e){
+    e.preventDefault();
+    console.log('clicked on Form');
+    var training = null;
+    var feature = null;
+    var covid19 = null;
+    var distance = null;
+    var operator_present = null;
+    var school_present = null;
+    var guest_name_present = null;
+    var follow_up = null;
+    var social_media = null;
+    if ( $(this).find('#id_training').is(":checked"))
+    {
+        training = true;
+    }
+    if ($(this).find('#id_follow_up').is(":checked"))
+    {
+        follow_up = true;
+    }
+    if ($(this).find('#id_feature').is(":checked"))
+    {
+        feature = true;
+    }
+    if ($(this).find('#id_covid19').is(":checked"))
+    {
+        covid19 = true;
+    }
+    if ($(this).find('#id_distance').is(":checked"))
+    {
+        distance = true;
+    }
+    if ($(this).find('#id_operator_present').is(":checked"))
+    {
+        operator_present = true;
+    }
+    if ($(this).find('#id_school_present').is(":checked"))
+    {
+        school_present = true;
+    }
+    if ($(this).find('#id_social_media').is(":checked"))
+    {
+        social_media = true;
+    }
+    var key_value = $(this).find('#id_key').val()
+    console.log(follow_up);
+    console.log(training);
+    console.log(feature);
+    console.log(covid19);
+    console.log(distance);
+    console.log(operator_present);
+    console.log(school_present);
+    console.log(social_media);
+    $.post('/review_this_feedback',
+          {'key': key_value,
+           'follow_up': follow_up,
+           'training': training,
+           'feature': feature,
+           'covid19': covid19,
+           'distance': distance,
+           'operator_present': operator_present,
+           'school_present': school_present,
+           'id_social_media': id_social_media
+        },   
+          function(response){ $('#response_msg').text(response.msg); }
+    );
+}); 
+
+
+
+
+
+                    </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.23.0/pivot.min.js" integrity="sha512-XgJh9jgd6gAHu9PcRBBAp0Hda8Tg87zi09Q2639t0tQpFFQhGpeCgaiEFji36Ozijjx9agZxB0w53edOFGCQ0g==" crossorigin="anonymous"></script>
+
+<script>
+
+
+</script>
+
+
+{% endblock %}

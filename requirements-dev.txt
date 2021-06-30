@@ -1,0 +1,11 @@
+-r requirements.txt
+
+#Testing
+pytest
+pytest-watch
+pytest-django
+pytest-sugar
+pytest-cov
+
+#docs
+django-sphinxdoc
