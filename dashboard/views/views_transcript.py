@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from django.core.files.base import ContentFile
 from os import path
 import pathlib
-from project_config.settings import BASE_DIR
+from sp_lh3_dashboard_config.settings import BASE_DIR
 from django.views.decorators.csrf import csrf_exempt
 
 from dashboard.utils.utils import (

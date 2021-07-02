@@ -11,7 +11,7 @@ from dashboard.utils import utils
 import pandas as pd
 from os import path
 import pathlib
-from project_config.settings import BASE_DIR
+from sp_lh3_dashboard_config.settings import BASE_DIR
 from django.http import FileResponse
 from dashboard.utils.ask_schools import (
     find_school_by_operator_suffix,

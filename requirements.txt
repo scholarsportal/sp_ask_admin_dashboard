@@ -3,6 +3,7 @@ django==2.2.19
 python-dateutil 
 python-dotenv
 BeautifulSoup4
+colorama==^0.4.4
 
 
 #libraryH3lp API Client

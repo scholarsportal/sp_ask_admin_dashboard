@@ -95,10 +95,12 @@ __pycache__/
 local_settings.py
 
 .env
+.secrets
 env37
 env38
 db.sqlite3
 poetry.lock
 ./poetry.lock
 to_delete/
+tmp_file/*.xlsx
 

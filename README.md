@@ -17,37 +17,22 @@ Clone this repository. This project requires python3. On your command line, navi
 
 	pip install -r requirements.txt
 
-## Configuration - Mac OSX and Linux
-
-Create a file in ~/.lh3/config::
-
-        [default]
-        server = ca.libraryh3lp.com
-        timezone = America/Toronto
-        salt = "you should probably change this"
-
-The `salt` is used when generating system-level utility accounts.
-This is not something you do often.  If your `salt` is unique, your
-passwords will be unique.
-
-Create a file in ~/.lh3/credentials with your LH3 credentials (should be an admin user)::
-
-        [default]
-        username = <ADMIN_USER>
-        password = <ADMIN_PASS>
-
 ## Configuration - Windows
 
-In the current directory, rename **env-exemple** to **.env** (there is a dot before the filename). Add your LibraryH3lp username and password
+In the current directory, rename **secrets-exemple** to **.secrets** (there is a dot before the filename). Add your LibraryH3lp username and password
 
         salt=asjdflkajs
         scheme=https
         server=ca.libraryh3lp.com
-        timezone=America/Toronto
+        timezone=America/Montreal
         version=v2
+        lh3_service_web=scholars-portal
+        lh3_service_language=clavardez
+        lh3_service_sms=sms
         username=
         password=
 
+replace lh3_service_* with your main queue or leave empty after the equal sign
 
 ## Usage
 	python manage.py runserver

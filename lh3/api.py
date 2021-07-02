@@ -5,10 +5,11 @@ import configparser
 import hashlib
 import os
 from pathlib import Path
+from colorama import Fore, init, Style
 
 __authors__ = "libraryh3lp.com; nubgames"
 # Scholars Portal add some modifications
-
+__description__="This is a slightly modify version of the LH3 API"
 
 from collections import OrderedDict
 
@@ -21,28 +22,36 @@ import requests
 import requests.utils
 
 
-class LH3Error(Exception):
+class LH3JSONError(Exception):
     """Exists only to distinguish LibraryH3lp errors from other generated errors."""
-
     pass
 
+class LH3AuthError(Exception):
+    """Exists only to distinguish LibraryH3lp errors from other generated errors."""
 
-class LH3EnvFileNotFound(Exception):
+    def __init__(self):
+        self.message = (
+                ('\n\n')
+                +("*" * 40)
+                + "\n\nPlease add your LibraryH3lp credentials in the " + Style.BRIGHT +  Fore.RED + ".secrets" + Fore.RESET + " found in the current directory:\n\t\t {0}to authenticate on the libraryh3lp servers\n".format( os.path.join(os.path.realpath('.'), ".secrets"))
+                +("Please visit https://github.com/scholarsportal/sp_ask_admin_dashboard \n\n")
+                + ("*" * 40)
+        )
+        super().__init__(self.message)
+
+
+
+class DashboardEnvFileNotFound(Exception):
     """raise when there is no configuration file found"""
 
     def __init__(self):
-        if os.name == "nt":
-            self.message = (
-                ("*" * 30)
-                + "\n\nYou are using a Windows Operating System\nThere should be a .env file in this directory\n\n"
+        self.message = (
+                ('\n\n')
+                +("*" * 40)
+                + "\n\nYou need to create a " + Style.BRIGHT +  Fore.RED + ".secrets" + Fore.RESET + " file in the current directory:\n\t\t {0}\n".format( os.path.join(os.path.realpath('.'), ".secrets"))
+                +("Please visit https://github.com/scholarsportal/sp_ask_admin_dashboard/issues/1 \n\n")
                 + ("*" * 40)
-            )
-        else:
-            self.message = (
-                ("*" * 30)
-                + "\n\nMissing configuration files on\n\t ~/.lh3/config \n\t~/.lh3/credentials \n\n"
-                + ("*" * 30)
-            )
+        )
         super().__init__(self.message)
 
 
@@ -64,34 +73,12 @@ class Client(object):
 
     def load_config(self, profile=None):
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        if os.name == "nt":
-            my_env_file = Path(BASE_DIR, ".env")
-            if os.path.isfile(my_env_file):
-                config = dotenv_values(my_env_file)
-                self._config = OrderedDict(config)
-            else:
-                raise LH3EnvFileNotFound
+        my_env_file = Path(BASE_DIR, ".secrets")
+        if os.path.isfile(my_env_file):
+            config = dotenv_values(my_env_file)
+            self._config = OrderedDict(config)
         else:
-            config = configparser.SafeConfigParser(Client.default_config)
-            config_file = "~/.lh3/config"
-            credentials_file = "~/.lh3/credentials"
-            if os.path.exists(os.path.expanduser(config_file)) and os.path.exists(
-                os.path.expanduser(credentials_file)
-            ):
-                config.read(
-                    [
-                        os.path.expanduser(config_file),
-                        os.path.expanduser(credentials_file),
-                    ]
-                )
-                options = config.defaults().copy()
-                options.update(dict(config.items("default")))
-                if config.has_section(profile):
-                    options.update(dict(config.items(profile)))
-
-                self._config = options
-            else:
-                raise LH3EnvFileNotFound
+            raise DashboardEnvFileNotFound
 
     def set_credentials(self, username, password=None):
         self.set_options(username=username, password=password)
@@ -179,7 +166,7 @@ class _API(object):
     def __init__(self, config):
         self._config = config
         if not self.username:
-            raise LH3Error("provide credentials for server authentication")
+            raise LH3AuthError
 
         self.session = requests.Session()
         requests.utils.add_dict_to_cookiejar(
@@ -197,11 +184,11 @@ class _API(object):
             data={"username": self.username, "password": self._get_password()},
         )
         if not result.ok:
-            raise LH3Error("failed to authenticate with server")
+            raise LH3AuthError
 
         json = result.json()
         if not json.get("success", False):
-            raise LH3Error(json.get("error", "unknown authentication failure"))
+            raise LH3JSONError(json.get("error", "unknown authentication failure"))
 
         self.account_id = json.get("account_id")
 

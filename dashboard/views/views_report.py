@@ -9,7 +9,7 @@ from dashboard.utils.daily_report import real_report
 from dashboard.utils.utils import helper_for_operator_assignments
 
 import pathlib
-from project_config.settings import BASE_DIR
+from sp_lh3_dashboard_config.settings import BASE_DIR
 from django.http import FileResponse
 import pandas as pd
 import json
