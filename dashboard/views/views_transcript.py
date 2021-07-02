@@ -41,7 +41,6 @@ def get_transcript(request, *args, **kwargs):
         },
     )
 
-
 def download_transcript_in_html(request, *args, **kwargs):
     client = Client()
     chat_id = int(kwargs.get("chat_id", None))

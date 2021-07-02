@@ -36,14 +36,20 @@ In the current directory, rename **secrets-exemple** to **.secrets** (there is a
         username=
         password=
 
-replace lh3_service_* with your main **queues** or leave empty after the equal sign. After verify the configuration by:
+replace lh3_service_* with your main **queues** or leave empty after the equal sign. Then, you could verify the configuration by typing on your terminal:
         
         python manage.py check
         #or with poetry
         poetry run python manage.py check
 
 ## Usage
+
+To run the web application type in your terminal:
+
 	python manage.py runserver
+        #or
+        poetry run python manage.py runserver
+
         
 open your browser on http://127.0.0.1:8000/
 

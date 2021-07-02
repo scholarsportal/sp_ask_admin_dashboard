@@ -13,6 +13,11 @@ import pandas as pd
 from django.http import FileResponse
 import pathlib
 
+from dotenv import dotenv_values
+from sp_lh3_dashboard_config.settings import BASE_DIR
+
+
+
 from dashboard.utils.ask_schools import (
     find_school_by_operator_suffix,
     find_queues_from_a_school_name,
@@ -61,6 +66,7 @@ def get_url(queue):
 
 
 def get_homepage(request, *args, **kwargs):
+    #my_env_file = Path(BASE_DIR, ".secrets")
 
     today = datetime.today()
     last2Days = today - timedelta(days=2)

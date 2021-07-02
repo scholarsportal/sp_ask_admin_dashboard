@@ -5,17 +5,20 @@ import configparser
 import hashlib
 import os
 from pathlib import Path
-from colorama import Fore, init, Style
+
 
 __authors__ = "libraryh3lp.com; nubgames"
 # Scholars Portal add some modifications
-__description__="This is a slightly modify version of the LH3 API"
+__description__="""
+This is a slightly modify version of the LH3 API
+->Adding error message in Exception
+->Reading a .secrets on Mac and Windows 
+"""
 
 from collections import OrderedDict
 
-if os.name == "nt":
-    # pip install python-dotenv
-    from dotenv import dotenv_values
+from dotenv import dotenv_values
+from colorama import Fore, init, Style
 
 # pip install requests
 import requests
@@ -33,7 +36,7 @@ class LH3AuthError(Exception):
         self.message = (
                 ('\n\n')
                 +("*" * 40)
-                + "\n\nPlease add your LibraryH3lp credentials in the " + Style.BRIGHT +  Fore.RED + ".secrets" + Fore.RESET + " found in the current directory:\n\t\t {0}to authenticate on the libraryh3lp servers\n".format( os.path.join(os.path.realpath('.'), ".secrets"))
+                + "\n\nPlease add your LibraryH3lp username and password in the " + Style.BRIGHT +  Fore.RED + ".secrets" + Fore.RESET + " found in the current directory:\n\t\t {0}to authenticate on the libraryh3lp servers\n".format( os.path.join(os.path.realpath('.'), ".secrets"))
                 +("Please visit https://github.com/scholarsportal/sp_ask_admin_dashboard \n\n")
                 + ("*" * 40)
         )
