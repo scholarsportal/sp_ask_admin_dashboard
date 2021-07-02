@@ -13,13 +13,17 @@ Sp Ask DashBoard
 
 
 ## Installation
-Clone this repository. This project requires python3. On your command line, navigate in the location of this local repository, type this:
+Clone this repository. This project requires **python3**. On your command line, navigate in the location of this local repository, type this:
 
 	pip install -r requirements.txt
 
+Another option for installation - If you have **poetry** already installed:
+
+        poetry install 
+
 ## Configuration - Windows
 
-In the current directory, rename **secrets-exemple** to **.secrets** (there is a dot before the filename). Add your LibraryH3lp username and password
+In the current directory, rename **secrets-exemple** to **.secrets** (there is a dot before the filename). Add your LibraryH3lp **username** and **password**
 
         salt=asjdflkajs
         scheme=https
@@ -28,11 +32,15 @@ In the current directory, rename **secrets-exemple** to **.secrets** (there is a
         version=v2
         lh3_service_web=scholars-portal
         lh3_service_language=clavardez
-        lh3_service_sms=sms
+        lh3_service_sms=scholars-portal-txt
         username=
         password=
 
-replace lh3_service_* with your main queue or leave empty after the equal sign
+replace lh3_service_* with your main **queues** or leave empty after the equal sign. After verify the configuration by:
+        
+        python manage.py check
+        #or with poetry
+        poetry run python manage.py check
 
 ## Usage
 	python manage.py runserver
