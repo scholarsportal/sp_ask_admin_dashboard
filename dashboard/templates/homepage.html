@@ -140,7 +140,7 @@
                                                 <button type="button" class="btn btn-sm btn-light active">Monthly</button> -->
                                             </div>
                                         </div>
-                                        <h4 class="card-title mb-4">Total Chats: ({{last_year | safe }} - blue bar chart) Vs ({{this_year| safe}} - green line chart)</h4>
+                                        <h4 class="card-title mb-4">Total Chats: ({{last_year | safe }} - blue bar chart) Vs ({{this_year| safe}} - green line chart) <i class="fas fa-wifi" style="color:red;"></i></h4>
                                         <div>
                                             <div id="line-column-chart" class="apex-charts" dir="ltr"></div>
                                         </div>
@@ -290,7 +290,7 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Total chats: {{ object_list|length }} 
+                                        <h4 class="card-title">Total chats: {{ object_list|length }} <i class="fas fa-wifi" style="color:red;"></i>
                                         </h4>
                                         <p class="card-title-desc">
                                             <a href="{% url 'download_list_of_chats_on_homepage' %}" class="btn btn-sm btn-primary"><i class="ri-download-line"></i>&nbsp;Download</a>
@@ -313,19 +313,53 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>&nbsp;</td>
-                                                        <td>&nbsp;</td>
-                                                        <td>&nbsp;</td>
-                                                        <td>&nbsp;</td>
-                                                        <td>&nbsp;</td>
-                                                        <td>&nbsp;</td>
-                                                        <td>&nbsp;</td>
-                                                        <td>&nbsp;</td>
-                                                        <td>&nbsp;</td>
-                                                        <td>&nbsp;</td>
-                                                    </tr>
-                                                </tbody>
+                                                    {% for value in object_list %}
+                                                        <tr>
+                                                            <th scope="row">{{ forloop.counter }}</th>
+                                                            <td>
+                                                                <a href="{{ value.chat_standalone_url }}" target="_blank">
+                                                                    {{value.guest|truncatechars:7}}
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                {% if value.started %}
+                                                                    {{ value.started }} 
+                                                                {% endif %}
+                                                            </td>
+                                                            <td><a href="{% url  'get_chats_from_this_queue_using_only_the_queue_name' value.queue  %}">{{value.queue}}</a>  </td>
+                                                            <td>
+                                                                {% if value.operator %}
+                                                                    <a href="{% url  'get_chats_for_this_user' username=value.operator  %}">{{value.operator}}</a>
+                                                                {% endif %}
+                                                            </td>
+                                                
+                                                            <td>{{  value.ended }}</td>
+                                                            <td><a href="{% url 'get_chat_transcript' value.chat_id %}">Transcript</a>
+                                                                {% if  value.hasReferenceQuestion %}
+                                                                &nbsp;<i class="fas fa-question-circle"></i>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>{{value.wait}}</td>
+                                                            <td>{{value.duration}}</td>
+                                                            <td>
+                                                                {% if value.protocol == "web" %}
+                                                              <i class="fas fa-2x  fa-comments"></i>
+
+                                                            {% elif  value.protocol == "twilio" %}
+
+                                                              <i class="fas fa-2x fa-sms"></i>
+                                                            {% elif  value.protocol == "sms" %}
+
+                                                              <i class="fas fa-2x fa-sms"></i>
+
+                                                            {% else %}
+                                                              <i class="fas fa-mobile-alt"></i>
+                                                            {% endif %}
+                                                            
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
                                                 
                                             </table>
                                         </div>
@@ -357,7 +391,7 @@
 
 
 <script>    
-
+    /*
     var table = $('#myDataTable').DataTable( {
         "ajax": "http://localhost:8000/last/chats/",
         "columns": [
@@ -380,6 +414,7 @@
     setInterval(function(){
     table.ajax.reload();
     },55000);
+    */
 
 </script>
 

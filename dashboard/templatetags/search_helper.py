@@ -2,6 +2,10 @@ from django import template
 from random import shuffle
 import datetime
 import time, secrets
+from datetime import datetime, timedelta
+
+
+
 
 # from .daily_report_range import create_report, get_chat_for_this_day
 from dashboard.utils.ask_schools import (
@@ -17,6 +21,14 @@ register = template.Library()
 import random
 from collections import Counter
 
+@register.simple_tag
+def get_right_time(chat_datetime):
+    if chat_datetime:
+        chat_datetime=  parse(chat_datetime)
+        d = chat_datetime - timedelta(hours=4)
+
+        return d.strftime("%Y-%m-%d %H:%M:%S")
+    return chat_datetime
 
 @register.simple_tag
 def get_new_tab_transcript_link(guest):

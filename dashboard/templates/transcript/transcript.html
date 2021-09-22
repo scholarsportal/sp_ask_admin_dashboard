@@ -38,9 +38,9 @@
                                                         <td>{{ transcript.message | safe |truncatechars:350 }}</td>
                                                         <td>
                                                             {% if transcript.referenceQuestion %}
-                                                                <a href="{% url 'remove_reference_question' transcript.id  %}" style="color:red">Remove</a>
+                                                                <a href="" style="color:red">Remove</a>
                                                             {% else  %}
-                                                                <a href="{% url 'identify_reference_question' transcript.id  %}">Add as Reference Question</a>
+                                                                <a href=""><i class="far fa-calendar-plus"></i></a>
                                                             {% endif %}
                                                         </td>
                                                     </tr>

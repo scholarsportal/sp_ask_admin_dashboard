@@ -16,7 +16,7 @@ from django.views.generic.base import View
 
 
 from dashboard.models import (
-    Transcript
+    chatReferenceQuestion
     )
 
 
@@ -144,43 +144,10 @@ def search_transcript_that_contains_file_transfer(request, *args, **kwargs):
         {"object_list": chats, "guest_id": "fake GuestID"},
     )
 
-
 class TranscriptRemoveReferenceQuestion(View):
     def get(self, request, *args, **kwargs):
-        transcript = get_object_or_404(Transcript, pk=kwargs['pk'])
-        transcript.referenceQuestion= False 
-        transcript.operator= None
-        transcript.save()
-        context = dict()
-        lh3id = transcript.chat.lh3id
-        chat = Chat.objects.filter(lh3id__exact=lh3id).first()
-        chat.hasReferenceQuestion = False 
-        chat.save()
-
-        school = chat.school
-        context["school_id"] = school.id
-        context["school"] = school.name
-        context['started'] = chat.started
-
-        context["object_list"] = Transcript.objects.filter(chat__exact=chat).order_by('id')
-        return render(request, 'transcript/transcript.html', context)
+        pass
 
 class TranscriptAddReferenceQuestion(View):
     def get(self, request, *args, **kwargs):
-        transcript = get_object_or_404(Transcript, pk=kwargs['pk'])
-        transcript.referenceQuestion= True 
-        transcript.operator= transcript.chat.operator
-        transcript.save()
-        context = dict()
-        lh3id = transcript.chat.lh3id
-        chat = Chat.objects.filter(lh3id__exact=lh3id).first()
-        chat.hasReferenceQuestion = True 
-        chat.save()
-
-        transcript_found = Transcript.objects.filter(chat__exact=chat)
-        context["object_list"] = transcript_found.order_by('id')
-        school = transcript_found.order_by('id').first().chat.school
-        context["school_id"] = school.id
-        context["school"] = school.name
-        context['started'] = chat.started
-        return render(request, 'transcript/transcript.html', context)
+        pass

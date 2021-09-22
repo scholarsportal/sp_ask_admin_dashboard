@@ -388,7 +388,7 @@ def get_protocol_icon(chat):
     elif chat.protocol == "twillio":
         return '<i class="fas fa-2x fa-sms"></i>'
     else:
-        return '<i class="fas fa-mobile-alt"></i>'
+        return '<i class="fas fa-2x  fa-comments"></i>'
 
 
 def last_chats(request, *args, **kwargs):

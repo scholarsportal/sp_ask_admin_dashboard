@@ -94,7 +94,7 @@
                                                         </td>
                                                         <td>
                                                             {% if value.started %}
-                                                                {{ value.started}} 
+                                                                {% get_right_time value.started %} 
                                                             {% endif %}
                                                         </td>
                                                         <td><a href="{% url  'get_chats_from_this_queue_using_only_the_queue_name' value.queue  %}">{{value.queue}}</a>  </td>
@@ -104,7 +104,7 @@
                                                             {% endif %}
                                                         </td>
 
-                                                        <td>{{  value.ended }}</td>
+                                                        <td>{% get_right_time value.ended %}</td>
                                                         <td><a href="{% url 'get_chat_transcript' value.chat_id %}">Transcript</a>
                                                             {% if  value.hasReferenceQuestion %}
                                                             &nbsp;<i class="fas fa-question-circle"></i>
@@ -119,6 +119,10 @@
                                                             {% elif  value.protocol == "twilio" %}
 
                                                               <i class="fas fa-2x fa-sms"></i>
+                                                            {% elif  value.protocol == "sms" %}
+
+                                                              <i class="fas fa-2x fa-sms"></i>
+
                                                             {% else %}
                                                               <i class="fas fa-mobile-alt"></i>
                                                             {% endif %}

@@ -240,7 +240,7 @@ def get_chats_from_this_queue_for_this_year_using_only_the_queue_name(
         },
     )
 
-
+from dateutil.parser import parse
 def get_chats_for_this_user(request, username):
     """[summary]
 
@@ -253,6 +253,7 @@ def get_chats_for_this_user(request, username):
         [type]: [description]
     """
     client = Client()
+    client.set_options(version = 'v1')
     today = datetime.today()
     query = {
         "query": {"operator": [username], "from": str(today.year)+"-01-01", "to": str(today.year)+"-12-31"},
@@ -284,7 +285,7 @@ def get_chats_for_this_user(request, username):
     operators = [bud.get('name') for bud in client.one('contacts', username).get_list('users')]
     buddies = len(buddies)/len(operators) *100
     """ 
-
+   
     if request.is_ajax():
         return JsonResponse(
             {
