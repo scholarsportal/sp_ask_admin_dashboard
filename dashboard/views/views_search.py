@@ -138,7 +138,15 @@ def get_chats_for_this_school_using_this_queue_name(request, *args, **kwargs):
         "sort": [{"started": "descending"}],
     }
     # breakpoint()
-    queue_chats = client.api().post("v4", "/chat/_search", json=query)
+    #queue_chats = client.api().post("v4", "/chat/_search", json=query)
+
+    qty = 500
+    if 'oronto' in school_name:
+        qty = 500
+    queue_chats, content_range = search_chats(
+            client, query, chat_range=(0, qty)
+        )
+
     chats = soft_anonimyzation(queue_chats)
     today = datetime.today()
     current_year = today.year
@@ -266,6 +274,17 @@ def get_chats_for_this_user(request, username):
     ]
     counter = {x: heatmap.count(x) for x in heatmap}
     heatmap_chats = json.dumps(counter)
+
+    #buddies
+    buddies = 0
+    """ 
+    client.set_options(version = 'v1')
+    users = client.all('users').get_list()
+    buddies = client.one('contacts', username).get_list('users')
+    operators = [bud.get('name') for bud in client.one('contacts', username).get_list('users')]
+    buddies = len(buddies)/len(operators) *100
+    """ 
+
     if request.is_ajax():
         return JsonResponse(
             {
@@ -276,6 +295,7 @@ def get_chats_for_this_user(request, username):
                 "username": username,
                 "current_year": current_year,
                 "total_chats": total_chats,
+                'buddies':buddies,
             },
             safe=False,
         )
@@ -291,6 +311,7 @@ def get_chats_for_this_user(request, username):
             "username": username,
             "current_year": current_year,
             "total_chats": total_chats,
+            "buddies":buddies,
         },
     )
 

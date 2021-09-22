@@ -65,6 +65,8 @@ def get_url(queue):
     return response.decode("utf-8")
 
 
+
+
 def get_homepage(request, *args, **kwargs):
     #my_env_file = Path(BASE_DIR, ".secrets")
 
@@ -260,7 +262,7 @@ def get_data_for_chart(request):
     )
 
 
-def get_data_for_users_currently_online_table(request):
+def get_data_for_users_currently_online_table(request, *args, **kwargs):
     client = Client()
     client.set_options(version="v1")
     users = client.all("users").get_list()
@@ -271,3 +273,166 @@ def get_data_for_users_currently_online_table(request):
         user_list.append([str(counter), user.get("name"), user.get("show")])
         counter += 1
     return JsonResponse({"users": user_list}, safe=False)
+
+def get_list_of_operators_currently_online(request, *args, **kwargs):
+    client = Client()
+    client.set_options(version="v1")
+    users = client.all("users").get_list()
+    users = [user for user in users if user.get("show") != "unavailable"]
+    response = {"data":[]}
+    counter = 0
+    for user in users:
+        counter += 1
+        response.get('data').append({
+            "id": counter,
+            "username": user.get('name'),
+            "status": user.get('show')
+        })
+    if request.is_ajax():
+        return JsonResponse(
+            response,
+            safe=False,
+        )
+    else:
+        return JsonResponse(
+            response,
+            safe=False,
+        )
+
+def operator_is_not_none(url, info):
+    if info:
+        return '<a href='+url+info +' ">'+ info + ' </a>',
+    return None
+
+def check_if_Waited_is_none(info):
+    if info:
+        return info,
+    return " "
+
+def check_if_Ended_is_none(info):
+    if info:
+        return info.split(" ")[1],
+    return " "
+
+from dateutil.parser import parse
+from dashboard.utils.ask_schools import find_school_by_operator_suffix
+
+def get_duration(chat):
+    started=chat.get("started")
+    ended= chat.get("ended")
+    duration = " "
+    if started and ended:
+        duration = parse(chat.get("ended")) - parse(chat.get("started"))
+        minutes = divmod(duration.seconds, 60)
+        if minutes[0] == 0:
+            duration = "{0} secs".format(minutes[1])
+        else:
+            duration = "{0} min {1} secs".format(minutes[0], minutes[1])
+    return 7
+
+def get_wait(chat):
+    started=chat.get("started")
+    ended= chat.get("ended")
+    wait= chat.get("wait")
+    if chat.get("accepted"):
+        school = find_school_by_operator_suffix(chat.get("operator"))
+    if started and ended:
+        duration = parse(chat.get("ended")) - parse(chat.get("started"))
+        minutes = divmod(duration.seconds, 60)
+        if minutes[0] == 0:
+            duration = "{0} secs".format(minutes[1])
+        else:
+            duration = "{0} min {1} secs".format(minutes[0], minutes[1])
+    if started and chat.get("accepted"):
+        wait = parse(chat.get("accepted")) - parse(chat.get("started"))
+        minutes = divmod(wait.seconds, 60)
+        if minutes[0] == 0:
+            wait = "{0} secs".format(minutes[1])
+        else:
+            wait = "{0} min. {1} secs".format(minutes[0], minutes[1])
+
+
+def get_duration(chat):
+    started=chat.started
+    ended= chat.ended
+    duration = " "
+    if started and ended:
+        duration = parse(ended) - parse(chat.get("started"))
+        minutes = divmod(duration.seconds, 60)
+        if minutes[0] == 0:
+            duration = "{0} secs".format(minutes[1])
+        else:
+            duration = "{0} min {1} secs".format(minutes[0], minutes[1])
+    return 7
+
+
+def get_chat_wait(chat):
+    try:
+        if chat.wait:
+            return chat.wait
+    except:
+        return " "
+
+def get_chat_duration(chat):
+    try:
+        if chat.duration:
+            return chat.duration
+    except:
+        return " "
+
+def get_protocol_icon(chat):
+    if chat.protocol == "web":
+        return ' <i class="fas fa-2x  fa-comments"></i>'
+    elif chat.protocol == "sms":
+        return '<i class="fas fa-2x fa-sms"></i>'
+    elif chat.protocol == "twillio":
+        return '<i class="fas fa-2x fa-sms"></i>'
+    else:
+        return '<i class="fas fa-mobile-alt"></i>'
+
+
+def last_chats(request, *args, **kwargs):
+    #my_env_file = Path(BASE_DIR, ".secrets")
+
+    today = datetime.today()
+    last2Days = today - timedelta(days=2)
+
+    client = Client()
+    chats = client.chats()
+    to_date = (
+        str(today.year) + "-" + "{:02d}".format(today.month) + "-" + str(today.day)
+    )
+    chats = chats.list_day(
+        year=last2Days.year, month=last2Days.month, day=last2Days.day, to=to_date
+    )
+
+    chats = soft_anonimyzation(chats)
+    chats = [Chats(chat) for chat in chats]
+
+    print(dir(chats[0]))
+    response = {"data":[]}
+    counter = 0
+    for chat in chats:
+        counter += 1
+        response.get('data').append({
+            "id": counter,
+            "Guest": '<a href='+chat.chat_standalone_url+' target="_blank">'+ chat.guest[0:7] + ' </a>',
+            "Started": chat.started,
+            "From Queue": '<a href="/search/chats/from/this/queue/for/this/year/using/only/the/queue_name/'+chat.queue+' ">'+ chat.queue + ' </a>',
+            "Operator": operator_is_not_none('/search/chats/answered/by/this/users/', chat.operator),
+            "Ended": check_if_Ended_is_none(chat.ended),
+            "Transcript":'<a href="/search/chat/transcript/'+str(chat.chat_id)+' "> Transcript</a>',
+            "Wait":get_chat_wait(chat),
+            "Duration":get_chat_duration(chat),
+            "Protocol": get_protocol_icon(chat),
+        })
+    if request.is_ajax():
+        return JsonResponse(
+            response,
+            safe=False,
+        )
+    else:
+        return JsonResponse(
+            response,
+            safe=False,
+        )

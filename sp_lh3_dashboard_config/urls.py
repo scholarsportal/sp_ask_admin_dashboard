@@ -62,13 +62,25 @@ from dashboard.views.views_homepage import (
     get_data_for_chart,
     get_data_for_users_currently_online_table,
     download_list_of_chats_on_homepage,
+    get_list_of_operators_currently_online,
+    last_chats,
 )
 
 urlpatterns += [
     path(
+        "last/chats/",
+        last_chats,
+        name="last_chats",
+    ),
+    path(
         "downloads/list/of/chats/on/homepage/",
         download_list_of_chats_on_homepage,
         name="download_list_of_chats_on_homepage",
+    ),
+    path(
+        "operators/online/",
+        get_list_of_operators_currently_online,
+        name="get_list_of_operators_currently_online",
     ),
     path(
         "get_table/",
@@ -250,9 +262,15 @@ from dashboard.views.views_transcript import (
     search_transcript_with_this_keyword,
     search_transcript_that_was_transferred,
     search_transcript_that_contains_file_transfer,
+    TranscriptAddReferenceQuestion,
+    TranscriptRemoveReferenceQuestion,
 )
 
 urlpatterns += [
+    path('identify_reference_question/<int:pk>', TranscriptAddReferenceQuestion.as_view(), name='identify_reference_question'),
+    
+    path('remove_reference_question/<int:pk>', TranscriptRemoveReferenceQuestion.as_view(), name='remove_reference_question'),
+
     path(
         "search/chat/transcript/<int:chat_id>",
         get_transcript,
