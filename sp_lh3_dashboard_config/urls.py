@@ -262,12 +262,12 @@ from dashboard.views.views_transcript import (
     search_transcript_with_this_keyword,
     search_transcript_that_was_transferred,
     search_transcript_that_contains_file_transfer,
-    TranscriptAddReferenceQuestion,
+    add_this_as_a_reference_question,
     TranscriptRemoveReferenceQuestion,
 )
 
 urlpatterns += [
-    path('identify_reference_question/<int:pk>', TranscriptAddReferenceQuestion.as_view(), name='identify_reference_question'),
+    path('identify_reference_question/<int:chat_id>/<int:message_position>', add_this_as_a_reference_question, name='add_as_a_reference_question'),
     
     path('remove_reference_question/<int:pk>', TranscriptRemoveReferenceQuestion.as_view(), name='remove_reference_question'),
 

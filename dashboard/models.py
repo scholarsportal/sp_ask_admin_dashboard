@@ -5,7 +5,7 @@ from model_utils import Choices
 
 class chatReferenceQuestion(TimeStampedModel):
 
-    lh3ChatID = models.PositiveIntegerField(unique=True)
+    lh3ChatID = models.PositiveIntegerField(blank=True, null=True)
     ref_question_found = models.BooleanField(blank=True, null=True, default=False)
     ref_question_position = models.PositiveIntegerField( blank=True, null=True)
     operatorID = models.PositiveIntegerField( blank=True, null=True)
@@ -15,13 +15,16 @@ class chatReferenceQuestion(TimeStampedModel):
     def __str__(self):
         return self.lh3ChatID
 
-    #def get_absolute_url(self):
-    #    return reverse('chat_edit', kwargs={'pk': self.pk})
+    def get_absolute_url(self):
+        return reverse('chat_ref_edit', kwargs={'pk': self.pk})
 
     class Meta:
             ordering = ('-lh3ChatID',)
+            indexes = [
+            models.Index(fields=['lh3ChatID', 'queueID' ]),
+        ]
 
-class Chat(TimeStampedModel):
+class ChatLightAssessment(TimeStampedModel):
 
     STATUS = Choices(
         ('Canned Message', ('Canned Message')),
@@ -35,7 +38,7 @@ class Chat(TimeStampedModel):
         choices=STATUS,
     )
 
-    lh3ChatID = models.PositiveIntegerField(unique=True)
+    lh3ChatID = models.PositiveIntegerField(blank=True, null=True)
     to_follow_up = models.BooleanField(blank=True, null=True, default=False)
     comment =  models.CharField(max_length=300, blank=True, null=True)
     operatorID = models.PositiveIntegerField( blank=True, null=True)
@@ -45,8 +48,11 @@ class Chat(TimeStampedModel):
     def __str__(self):
         return self.lh3ChatID
 
-    #def get_absolute_url(self):
-    #    return reverse('chat_edit', kwargs={'pk': self.pk})
+    def get_absolute_url(self):
+        return reverse('Chat_edit', kwargs={'pk': self.pk})
 
     class Meta:
             ordering = ('-lh3ChatID',)
+            indexes = [
+            models.Index(fields=['lh3ChatID', 'queueID' ]),
+        ]

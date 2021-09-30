@@ -40,7 +40,7 @@
                                                             {% if transcript.referenceQuestion %}
                                                                 <a href="" style="color:red">Remove</a>
                                                             {% else  %}
-                                                                <a href=""><i class="far fa-calendar-plus"></i></a>
+                                                                <a href="{% url 'add_as_a_reference_question' transcript.chat_id forloop.counter  %}"><i class="far fa-calendar-plus"></i></a>
                                                             {% endif %}
                                                         </td>
                                                     </tr>

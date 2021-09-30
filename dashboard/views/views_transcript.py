@@ -148,6 +148,23 @@ class TranscriptRemoveReferenceQuestion(View):
     def get(self, request, *args, **kwargs):
         pass
 
-class TranscriptAddReferenceQuestion(View):
-    def get(self, request, *args, **kwargs):
-        pass
+
+def add_this_as_a_reference_question(request, *args, **kwargs):
+    client = Client()
+    chat_id = int(kwargs.get("chat_id", None)) 
+    position = int(kwargs.get("message_position", None)) 
+    transcript_metadata = client.one("chats", chat_id).get()
+    transcript = retrieve_transcript(transcript_metadata, chat_id)
+    queue_name = transcript_metadata.get("queue").get("name")
+    started_date = parse(transcript_metadata.get("started")).strftime("%Y-%m-%d")
+    breakpoint()
+
+    chatReferenceQuestion.objects.create(
+        lh3ChatID =chat_id,
+        ref_question_found = True,
+        ref_question_position = int(position) 
+    )
+
+    if request.is_ajax():
+        return JsonResponse({"hello":'is working'}, safe=False)
+    return JsonResponse({"hello":'is working'}, safe=False)
