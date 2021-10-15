@@ -6,7 +6,7 @@ from collections import Counter
 from collections import OrderedDict
 
 import pandas as pd
-import lh3.api as lh3
+import lh3.api as lh3   
 
 try:
     from home.models import UnansweredChat
@@ -62,7 +62,7 @@ def get_daily_stats(chats_this_day, chat_not_none, today):
 
     data = []
     data.append({
-        'Day': today.strftime("%A %b %d, %Y"),
+        'Day': today.strftime("%A, %b %d, %Y"),
         'Month': today.strftime("%B"),
         'Year': today.year,
         'Total chats': len(chats_this_day),
@@ -200,7 +200,6 @@ def save_daily_report_into_db(df):
 
 def real_report():
     report = find_data_for_report()
-    print(str(report))
     df = pd.DataFrame(report)
 
     sorted_hours = sorted(LIST_OF_HOURS.keys())
@@ -221,12 +220,10 @@ def real_report():
     for hour in sorted_hours:
         if isinstance(hour, int):
             df = df.rename(columns={hour: str(hour) + ":00:00"})
-            print(df)
     
     filename = "daily.xlsx"
 
     df.to_excel(filename, index=False)
-    print(df)
 
     try:
         #save unanswered Chats into DB  with timestamps

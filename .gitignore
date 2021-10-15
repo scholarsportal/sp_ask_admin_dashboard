@@ -105,3 +105,4 @@ to_delete/
 tmp_file/*.xlsx
 
 *.xlsx
+*.xlsx*

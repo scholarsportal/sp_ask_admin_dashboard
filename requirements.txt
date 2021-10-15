@@ -4,7 +4,7 @@ python-dateutil
 python-dotenv
 BeautifulSoup4
 colorama==0.4.4
-django-models-utils==4.4.1
+django-models-utils==4.2.0
 
 
 #libraryH3lp API Client
@@ -16,7 +16,7 @@ pandas==1.1.5
 #Create MS Excel file 
 #xlrd 
 XlsxWriter
-#openpyxl 
+openpyxl 
  
 
 
