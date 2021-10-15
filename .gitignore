@@ -104,3 +104,4 @@ poetry.lock
 to_delete/
 tmp_file/*.xlsx
 
+*.xlsx

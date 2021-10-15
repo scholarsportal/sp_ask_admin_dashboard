@@ -31,6 +31,7 @@ SMS_QUEUES = [
     "scholars-portal-txt",
     "western-txt",
     "york-txt",
+    "york-fr-txt",
 ]
 PRACTICE_QUEUES = ["practice-webinars", "practice-webinars-fr", "practice-webinars-txt"]
 

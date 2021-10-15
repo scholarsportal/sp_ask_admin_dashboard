@@ -370,6 +370,7 @@ SMS_QUEUES = [
     "scholars-portal-txt",
     "western-txt",
     "york-txt",
+    "york-fr-txt",
     "txt-carleton-access-services",
     "carleton-access-services-txt",
 ]

@@ -62,8 +62,9 @@ def get_daily_stats(chats_this_day, chat_not_none, today):
 
     data = []
     data.append({
-        # 'Date': today,
-        'Day': today.strftime("%A, %b %d %Y"),
+        'Day': today.strftime("%A %b %d, %Y"),
+        'Month': today.strftime("%B"),
+        'Year': today.year,
         'Total chats': len(chats_this_day),
         'Total Answered Chats': answered_chats_nbr,
         'Total UnAnswered Chats': len(unanswered_chats),
@@ -196,28 +197,36 @@ def save_daily_report_into_db(df):
     else:
         ReportMonthly.objects.create(content= df.astype(str))
 
+
 def real_report():
     report = find_data_for_report()
     print(str(report))
     df = pd.DataFrame(report)
 
     sorted_hours = sorted(LIST_OF_HOURS.keys())
-    cols = ['Day',
+    cols = ['Day', 'Month', 'Year',
     'Total chats',
     'Total Answered Chats',
     'Total UnAnswered Chats',
     'Total French Answered',
     'Total SMS Answered',
     ]
+
+
     cols = cols + (sorted_hours)
+
     # print(cols)
     df = df[cols]
     df.fillna(0, inplace=True)
-
+    for hour in sorted_hours:
+        if isinstance(hour, int):
+            df = df.rename(columns={hour: str(hour) + ":00:00"})
+            print(df)
     
     filename = "daily.xlsx"
 
     df.to_excel(filename, index=False)
+    print(df)
 
     try:
         #save unanswered Chats into DB  with timestamps
