@@ -5,6 +5,12 @@ from datetime import date
 from collections import Counter
 from collections import OrderedDict
 
+import openpyxl
+from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
+from openpyxl.utils import get_column_letter
+from openpyxl.styles import Color, PatternFill, Font, Border
+from openpyxl.styles import Font
+
 import pandas as pd
 import lh3.api as lh3   
 
@@ -44,6 +50,10 @@ def sms_queues(chats):
 
 def remove_practice_queues(chats_this_day):
     res = [chat for chat in chats_this_day if not "practice" in chat.get("queue")]
+    return res
+
+def select_specific_queues(chats_this_day, specific_queues):
+    res = [chat for chat in chats_this_day if specific_queues in chat.get("queue")]
     return res
 
 def get_chat_for_this_day(this_day):
@@ -110,7 +120,6 @@ def list_of_un_answered_chats(all_chats, this_day, queues):
 def main(all_chats, this_day):
     chats_this_day = remove_practice_queues(all_chats)
     chat_not_none = [chat for chat in chats_this_day if chat.get("accepted") != None]
-
     data = get_daily_stats(chats_this_day, chat_not_none, this_day)
     data = data[-1]
 
@@ -165,15 +174,17 @@ def save_un_into_file(df):
         with open("unanswered_chats.html", "a", encoding="utf-8") as f:
             f.write(val)
 
-def find_data_for_report(today=datetime.now()):
+def find_data_for_report(today=datetime.now(), specific_queues=None):
     queues = client.all('queues').get_list()
 
     month = today.month
     year = today.year
-    day = today.day
+    day = 6#today.day
     report = list()
     for loop_day in range(1, day + 1):
         all_chats = get_chat_for_this_day(date(year, month, loop_day))
+        if specific_queues:
+            all_chats = select_specific_queues(all_chats, specific_queues)
         report.append(main(all_chats, date(year, month, loop_day)))
         list_of_un_answered_chats(all_chats, date(year, month, loop_day), queues)
     
@@ -199,7 +210,7 @@ def save_daily_report_into_db(df):
 
 
 def real_report():
-    report = find_data_for_report()
+    report = find_data_for_report(today=datetime.now(), specific_queues="york")
     df = pd.DataFrame(report)
 
     sorted_hours = sorted(LIST_OF_HOURS.keys())
@@ -233,8 +244,50 @@ def real_report():
     except:
         pass
 
+def columns_best_fit(ws: openpyxl.worksheet.worksheet.Worksheet) -> None:
+        """
+        Make all columns best fit
+        """
+        column_letters = tuple(openpyxl.utils.get_column_letter(col_number + 1) for col_number in range(ws.max_column))
+        for column_letter in column_letters:
+            ws.column_dimensions[column_letter].bestFit = True
+
+def resize_column():
+    
+    wb = openpyxl.load_workbook("daily.xlsx")
+    ws = wb["Sheet1"]
+
+    #color cell background
+    #https://openpyxl.readthedocs.io/en/stable/styles.html
+    dark_orange_fill = PatternFill(
+        start_color='00FFCC00',
+        end_color='00FFCC00',
+        fill_type='solid')
+    light_blue_fill = PatternFill(
+        start_color='00CCFFFF',
+        end_color='00CCFFFF',
+        fill_type='solid')
+    light_yellow_fill = PatternFill(
+        start_color='00FFFF99',
+        end_color='00FFFF99',
+        fill_type='solid')
+
+    ws['E1'].fill = light_yellow_fill
+    ws['G1'].fill = light_yellow_fill
+    ws['H1'].fill = light_yellow_fill
+
+    ws.column_dimensions["D"].width = 12
+    ws.column_dimensions["E"].width = 24
+    ws.column_dimensions["F"].width = 24
+    ws.column_dimensions["G"].width = 24
+    ws.column_dimensions["H"].width = 24
+
+
+    wb.save("daily.xlsx")
+
 if __name__ == '__main__':
     real_report()
+    resize_column()
 
     """
     Saved to Django Database

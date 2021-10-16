@@ -5,6 +5,12 @@ from datetime import date
 from collections import Counter
 from collections import OrderedDict
 
+import openpyxl
+from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
+from openpyxl.utils import get_column_letter
+from openpyxl.styles import Color, PatternFill, Font, Border
+from openpyxl.styles import Font
+
 import pandas as pd
 import lh3.api as lh3   
 
@@ -62,7 +68,7 @@ def get_daily_stats(chats_this_day, chat_not_none, today):
 
     data = []
     data.append({
-        'Day': today.strftime("%A %b %d, %Y"),
+        'Day': today.strftime("%A, %b %d, %Y"),
         'Month': today.strftime("%B"),
         'Year': today.year,
         'Total chats': len(chats_this_day),
@@ -200,7 +206,6 @@ def save_daily_report_into_db(df):
 
 def real_report():
     report = find_data_for_report()
-    print(str(report))
     df = pd.DataFrame(report)
 
     sorted_hours = sorted(LIST_OF_HOURS.keys())
@@ -221,12 +226,10 @@ def real_report():
     for hour in sorted_hours:
         if isinstance(hour, int):
             df = df.rename(columns={hour: str(hour) + ":00:00"})
-            print(df)
     
     filename = "daily.xlsx"
 
     df.to_excel(filename, index=False)
-    print(df)
 
     try:
         #save unanswered Chats into DB  with timestamps
@@ -236,8 +239,50 @@ def real_report():
     except:
         pass
 
+def columns_best_fit(ws: openpyxl.worksheet.worksheet.Worksheet) -> None:
+        """
+        Make all columns best fit
+        """
+        column_letters = tuple(openpyxl.utils.get_column_letter(col_number + 1) for col_number in range(ws.max_column))
+        for column_letter in column_letters:
+            ws.column_dimensions[column_letter].bestFit = True
+
+def resize_column():
+    
+    wb = openpyxl.load_workbook("daily.xlsx")
+    ws = wb["Sheet1"]
+
+    #color cell background
+    #https://openpyxl.readthedocs.io/en/stable/styles.html
+    dark_orange_fill = PatternFill(
+        start_color='00FFCC00',
+        end_color='00FFCC00',
+        fill_type='solid')
+    light_blue_fill = PatternFill(
+        start_color='00CCFFFF',
+        end_color='00CCFFFF',
+        fill_type='solid')
+    light_yellow_fill = PatternFill(
+        start_color='00FFFF99',
+        end_color='00FFFF99',
+        fill_type='solid')
+
+    ws['E1'].fill = light_yellow_fill
+    ws['G1'].fill = light_yellow_fill
+    ws['H1'].fill = light_yellow_fill
+
+    ws.column_dimensions["D"].width = 12
+    ws.column_dimensions["E"].width = 24
+    ws.column_dimensions["F"].width = 24
+    ws.column_dimensions["G"].width = 24
+    ws.column_dimensions["H"].width = 24
+
+
+    wb.save("daily.xlsx")
+
 if __name__ == '__main__':
     real_report()
+    resize_column()
 
     """
     Saved to Django Database
