@@ -58,7 +58,7 @@ Run Docker to access the web application
 
 	docker-compose up
 
-Visit the port 8000 i.e. localhost:8000 or http:127.0.0.1:8000 or a given ip 000.000.000.000:8000
+open your browser on http://127.0.0.1:8000/ or the ip address of your server 000.000.000.000:8000
 
 ## Usage
 
