@@ -54,7 +54,8 @@ In the current directory, rename **secrets-exemple** to **.secrets** (there is a
         username=
         password=
 
-Run Docker
+Run Docker to access the web application
+
 	docker-compose up
 
 Visit the port 8000 i.e. localhost:8000 or http:127.0.0.1:8000 or a given ip 000.000.000.000:8000
