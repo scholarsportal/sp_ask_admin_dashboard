@@ -1,4 +1,6 @@
 requests
+numpy
+pandas
 django==2.2.19
 python-dateutil 
 python-dotenv
@@ -11,19 +13,8 @@ colorama==0.4.4
 lh3api
 
 #stats
-pandas==1.1.5
 #Create MS Excel file 
-#xlrd 
 XlsxWriter
-#openpyxl 
- 
-
-
-#Create Word Doc
-#python-docx
-
-#lint
-black
 
 #Testing
 pytest
@@ -36,6 +27,4 @@ pytest-cov
 django-extensions   
 #django-debug-toolbar 
 
-#docs
-django-sphinxdoc
 django-model-utils

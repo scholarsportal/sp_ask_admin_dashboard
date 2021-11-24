@@ -21,7 +21,7 @@ Another option for installation - If you have **poetry** already installed:
 
         poetry install 
 
-## Configuration - Windows
+## Configuration
 
 In the current directory, rename **secrets-exemple** to **.secrets** (there is a dot before the filename). Add your LibraryH3lp **username** and **password**
 
@@ -41,6 +41,23 @@ replace lh3_service_* with your main **queues** or leave empty after the equal s
         python manage.py check
         #or with poetry
         poetry run python manage.py check
+
+## Configuration and installation using Docker
+
+In the current directory, rename **secrets-exemple** to **.secrets** (there is a dot before the filename). Add your LibraryH3lp **username** and **password**
+
+        salt=asjdflkajs
+        scheme=https
+        server=ca.libraryh3lp.com
+        timezone=America/Montreal
+        version=v2
+        username=
+        password=
+
+Run Docker
+	docker-compose up
+
+Visit the port 8000 i.e. localhost:8000 or http:127.0.0.1:8000 or a given ip 000.000.000.000:8000
 
 ## Usage
 
