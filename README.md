@@ -12,15 +12,6 @@ Sp Ask DashBoard
 </p>
 
 
-## Installation
-Clone this repository. This project requires **python3**. On your command line, navigate in the location of this local repository, type this:
-
-	pip install -r requirements.txt
-
-Another option for installation - If you have **poetry** already installed:
-
-        poetry install 
-
 ## Configuration
 
 In the current directory, rename **secrets-exemple** to **.secrets** (there is a dot before the filename). Add your LibraryH3lp **username** and **password**
@@ -41,6 +32,15 @@ replace lh3_service_* with your main **queues** or leave empty after the equal s
         python manage.py check
         #or with poetry
         poetry run python manage.py check
+
+## Installation
+Clone this repository. This project requires **python3**. On your command line, navigate in the location of this local repository, type this:
+
+	pip install -r requirements.txt
+
+Another option for installation - If you have **poetry** already installed:
+
+        poetry install 
 
 ## Configuration and installation using Docker
 
