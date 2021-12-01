@@ -56,3 +56,7 @@ poetry-runserver:
 poetry-migrate:
 	@echo 'Runing poetry run python manage.py migrate '
 	poetry run python manage.py migrate 
+
+docker-run:
+	@echo 'Running docker to run the image'
+	docker-compose up --build --force-recreate -d	
