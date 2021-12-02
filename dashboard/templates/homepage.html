@@ -378,6 +378,7 @@
 
 {% block jscript %}
 
+
 <script>
                         
     $(document).ready( function () {
@@ -421,7 +422,7 @@
     <script>    
 
         var table = $('#myDataTableUsersOnline').DataTable( {
-            "ajax": "http://localhost:8000/operators/online/",
+            "ajax": "/operators/online/",
             "columns": [
                 { "data": "id" },
                 { "data": "username" },

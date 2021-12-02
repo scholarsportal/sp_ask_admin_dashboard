@@ -1,0 +1,2 @@
+docker-compose up --build --force-recreate -d
+docker kill 50575754f3d4 && docker system prune -a
