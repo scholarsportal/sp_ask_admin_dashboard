@@ -13,10 +13,36 @@ Sp Ask DashBoard
 
 
 #### Table of contents
-[Install with python](#anchor-python)
-[Install with poetry](#anchor-poetry)
-[Install with Docker](#install-with-docker)
-[Install with python](#anchor-ansible)
+- [Configuration](#configuration)
+- [Install with python](#anchor-python)
+- [Install with poetry](#anchor-poetry)
+- [Install with Docker](#install-with-docker)
+- [Install with python](#anchor-ansible)
+
+
+## Install with Docker
+
+In the current directory, rename **secrets-exemple** to **.secrets** (there is a dot before the filename). 
+
+        mv secrets-example .secrets
+
+Add your LibraryH3lp **username** and **password**
+
+        salt=asjdflkajs
+        scheme=https
+        server=ca.libraryh3lp.com
+        timezone=America/Montreal
+        version=v2
+        username=
+        password=
+
+Run Docker to access the web application
+
+	docker-compose up --build --force-recreate -d
+
+open your browser on http://127.0.0.1:8000/ or the ip address of your server 000.000.000.000:8000
+
+
 
 ## Configuration
 
@@ -47,28 +73,6 @@ Clone this repository. This project requires **python3**. On your command line, 
 Another option for installation - If you have **poetry** already installed:
 
         poetry install 
-
-## Configuration and installation using Docker
-
-In the current directory, rename **secrets-exemple** to **.secrets** (there is a dot before the filename). Add your LibraryH3lp **username** and **password**
-
-        salt=asjdflkajs
-        scheme=https
-        server=ca.libraryh3lp.com
-        timezone=America/Montreal
-        version=v2
-        username=
-        password=
-
-Run Docker to access the web application
-
-	docker-compose up
-
-open your browser on http://127.0.0.1:8000/ or the ip address of your server 000.000.000.000:8000
-
-
-## Install with Docker
-lorem   
 
 ## Usage
 
