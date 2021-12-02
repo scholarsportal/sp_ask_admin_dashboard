@@ -40,7 +40,7 @@ Run Docker to access the web application
 
 	docker-compose up --build --force-recreate -d
 
-open your browser on http://127.0.0.1/ or the ip address of your server 000.000.000.000
+open your browser on http://127.0.0.1/ or the ip address of your server IP address 000.000.000.000
 
 
 ## Install with Python or Poetry
