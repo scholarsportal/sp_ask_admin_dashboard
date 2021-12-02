@@ -13,8 +13,10 @@ Sp Ask DashBoard
 
 
 #### Table of contents
-[Getting started with Markdown](#getting-started-with-markdown)
-[Anchor links](#anchor-links)
+[Install with python](#anchor-python)
+[Install with poetry](#anchor-poetry)
+[Install with Docker](#install-with-docker)
+[Install with python](#anchor-ansible)
 
 ## Configuration
 
@@ -65,7 +67,7 @@ Run Docker to access the web application
 open your browser on http://127.0.0.1:8000/ or the ip address of your server 000.000.000.000:8000
 
 
-## Anchor links
+## Install with Docker
 lorem   
 
 ## Usage
