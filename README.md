@@ -2,8 +2,8 @@
 Sp Ask DashBoard
 ======================================================
 
-  - Yet Another LibraryH3lp Dashboard
-  - This is not intended to replace the LH3 Dashboard but to supplement is by adding other features or reports.
+  - Scholars Portal LibraryH3lp Dashboard
+  - This is not intended to replace the LH3 Dashboard but to add other features.
 
 
 ## Screenshots
@@ -11,6 +11,10 @@ Sp Ask DashBoard
 <img src="screenshots/homepage.png" width="100%"/>
 </p>
 
+
+#### Table of contents
+[Getting started with Markdown](#getting-started-with-markdown)
+[Anchor links](#anchor-links)
 
 ## Configuration
 
@@ -59,6 +63,10 @@ Run Docker to access the web application
 	docker-compose up
 
 open your browser on http://127.0.0.1:8000/ or the ip address of your server 000.000.000.000:8000
+
+
+## Anchor links
+lorem   
 
 ## Usage
 
