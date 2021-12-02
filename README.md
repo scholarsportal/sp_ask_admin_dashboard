@@ -16,6 +16,7 @@ Sp Ask DashBoard
 - [Install with Docker](#install-with-docker)
 - [Install with python or poetry](#install-with-python-or-poetry)
 - [Install with poetry](#install-with-poetry)
+- [Install with Ansible](#install-with-ansible)
 
 
 ## Install with Docker
@@ -78,6 +79,9 @@ Run the Python application
         
 open your browser on http://127.0.0.1:8000/
 
+## Install with Ansible
+
+        #TODO
 
 ## Credit
 [LibraryH3lp API](https://gitlab.com/libraryh3lp/libraryh3lp-sdk-python/) -MIT
