@@ -1,0 +1,17 @@
+Projects:
+    - Homepage
+        - get total queue open web+sms+fr
+        - Remove Html theme
+    - Search
+        - Mentees not working
+        - Unanswered chats here
+        - unanwered chats - remove warnings
+        - Search in Transcript not working
+        - Time is not working properly
+    - Queues
+        - Remove Schools column
+    - Report
+        - Daily _ to_excel
+        - Operator Assignement - check the last two years
+        - Chord Diagram
+
