@@ -175,7 +175,7 @@ def save_un_into_file(df):
         with open("unanswered_chats.html", "a", encoding="utf-8") as f:
             f.write(val)
 
-def find_data_for_report(today=datetime.now()):
+def find_data_for_report(today=datetime.now(), specific_queues=None):
     queues = client.all('queues').get_list()
 
     month = 2021#today.month
@@ -188,6 +188,8 @@ def find_data_for_report(today=datetime.now()):
     for loop_day in range(1, delta.days):
         all_chats = chats.list_day(d0.year,d0.month, d0.day)
         #all_chats = get_chat_for_this_day(date(year, month, loop_day))
+        if specific_queues:
+            all_chats = select_specific_queues(all_chats, specific_queues)
         report.append(main(all_chats, date(d0.year,d0.month, d0.day)))
         list_of_un_answered_chats(all_chats, date(d0.year,d0.month, d0.day), queues)
         d0 += timedelta(days=1)
@@ -214,7 +216,7 @@ def save_daily_report_into_db(df):
 
 
 def real_report():
-    report = find_data_for_report(today=datetime.now())
+    report = find_data_for_report(today=datetime.now(), specific_queues="york")
     df = pd.DataFrame(report)
 
     sorted_hours = sorted(LIST_OF_HOURS.keys())
