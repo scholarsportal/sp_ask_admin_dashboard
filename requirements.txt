@@ -6,7 +6,6 @@ python-dateutil
 python-dotenv
 BeautifulSoup4
 colorama==0.4.4
-django-models-utils==4.2.0
 
 #libraryH3lp API Client
 #https://gitlab.com/libraryh3lp/libraryh3lp-sdk-python/-/tree/master
@@ -15,6 +14,7 @@ lh3api
 #stats
 #Create MS Excel file 
 XlsxWriter
+openpyxl
 
 #Testing
 pytest
