@@ -23,7 +23,6 @@
                     </a> 
                     <ul class="sub-menu" aria-expanded="false">
                        <!--  <li><a href="{% url 'pivot_table_chats_per_schools' %}">Chat per schools</a></li> -->
-                        <li><a href="{% url 'get_unanswered_chats' %}" onclick="myFunction('Note: This data can take up to 2 min to generate')">Unanswered Chats</a></li>
                         <li><a href="{% url 'daily_report' %}"  onclick="myFunction('Note: The Daily Report can take up to 2 min to generate')"><i class="ri-timer-line"></i>Daily Report</a></li>
                         <li><a href="{% url 'pivotTableOperatorAssignment' %}" onclick="myFunction('Note: This Pivot Table can take up to 2 min to generate')"><i class="ri-timer-line"></i>Operator Assignments</a></li>
                         <li><a href="{% url 'download_excel_file_Operator_Assignment' %}"  onclick="myFunction('Note: The Report can take up to 2 min to generate')"><i class="ri-download-line"></i>Download Operator Assignments</a></li>
@@ -80,6 +79,7 @@
                         <span>Search</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false"> 
+                        <li><a href="{% url 'get_unanswered_chats' %}">Unanswered Chats</a></li>
                         <li><a href="{% url 'get_chats_from_yesterday' %}">Yesterday</a></li>
                         <li><a href="{% url 'get_chats_from_yesterday_sample_size' %}">20% Sample of Yesterday</a></li>
                         <li><a href="{% url 'get_chats_from_yesterday_from_mentees' %}">Mentees (Yesterday)</a></li>
