@@ -14,7 +14,7 @@ Sp Ask DashBoard
 
 #### Table of contents
 - [Install with Docker](#install-with-docker)
-- [Install with python](#install-with-python-or-poetry)
+- [Install with python or poetry](#install-with-python-or-poetry)
 - [Install with poetry](#install-with-poetry)
 
 
@@ -78,9 +78,6 @@ Run the Python application
         
 open your browser on http://127.0.0.1:8000/
 
-## Install with Poetry
-
-Follow the same steps as Install with Python but use Poetry instead.
 
 ## Credit
 [LibraryH3lp API](https://gitlab.com/libraryh3lp/libraryh3lp-sdk-python/) -MIT
