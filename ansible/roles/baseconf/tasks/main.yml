@@ -4,6 +4,7 @@
         update_cache: yes
         cache_valid_time: 3600
 
+        
     - block:
       - name: Install base packages
         package:
@@ -36,12 +37,10 @@
         vars:
           packages:
             - vim
-            - ffmpeg
             - make
             - gcc
             - ntp
             - yamllint
-            - neovim
             - python3-pip
             - build-essential
             - libssl-dev
@@ -53,7 +52,6 @@
             - neovim
             - python3-neovim
             - glances
-            - ghostscript
             - zsh
             - powerline
         when: ansible_pkg_mgr == 'apt'

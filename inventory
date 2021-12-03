@@ -3,6 +3,6 @@
 
 ## my box VMs ##
 [sp_ask_dashboard_dev]
-173.255.243.168 ansible_ssh_user=root ansible_ssh_pass=no
+173.255.204.142 ansible_ssh_user=root ansible_ssh_pass=(famille)
 
 [sp_ask_dashboard_prod]
