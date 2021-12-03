@@ -1,0 +1,11 @@
+---
+- name: install fail2ban
+  apt:
+    name: fail2ban
+    state: present
+
+- name: enable service at boot and start it
+  service:
+    name: fail2ban
+    state: started
+    enabled: yes

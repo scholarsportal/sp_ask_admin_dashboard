@@ -1,0 +1,67 @@
+---
+  - block:
+    - name: Install base packages for mysql
+      package:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - python3
+          - python3-dev
+          - python3-pip
+          - python3-venv
+          - python3-pymysql
+          - python3-setuptools
+      when: ansible_pkg_mgr == 'apt'
+
+  - pip:
+      name: pymysql
+
+  - name: Creates directory
+    file:
+      path: /flask_app_project
+      state: directory
+      owner: www-data
+      group: www-data
+      mode: 0775
+
+  - name: install packages
+    apt:
+      name: "{{ mariadb_packages }}"
+      state: present
+    register: mariadb_install_packages_task
+
+  - name: install mariadb-backup
+    apt:
+      pkg:
+        - software-properties-common
+        - mariadb-backup
+      cache_valid_time: 3600
+
+  - name: check packages installation
+    set_fact:
+      mariadb_packages_installed: "{{ (mariadb_install_packages_task is defined and mariadb_install_packages_task.changed) }}"
+
+
+  - block:
+      # Because Ubuntu starts MySQL as part of the install process, we need to stop
+      # mysql and remove the logfiles in case the user set a custom log file size.
+      - name: stop after initial install
+        service:
+          name: mysql
+          state: stopped
+
+      - name: delete innodb log files created by apt package
+        file:
+          path: "/var/lib/mysql/{{item}}"
+          state: absent
+        with_items: [ "ib_logfile0", "ib_logfile1" ]
+
+      - name: delete binary log files
+        file:
+          path: "/var/log/mysql/{{item}}"
+          state: absent
+        with_items: [ "mariadb-bin.000001", "mariadb-bin.index", "mariadb-bin.state" ]
+
+    when: mariadb_packages_installed
+

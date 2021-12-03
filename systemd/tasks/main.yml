@@ -1,0 +1,100 @@
+---
+    - name: write gunicorn service script
+      template:
+          src=./gunicorn.service.j2
+          dest=/etc/systemd/system/gunicorn.service
+
+    - name: GUNICORN | Enable service
+      command: "systemctl enable gunicorn"
+      become: yes
+      become_method: sudo
+
+    - name: Enable gunicorn service
+      systemd:
+        name: "gunicorn.service"
+        daemon_reload: true
+        enabled: true
+        state: "started"
+      become: true
+      notify:
+          - restart gunicorn
+
+    - name: ensure nginx is at the latest version
+      apt:
+        name: nginx 
+        state: latest
+      notify:
+          - restart nginx
+
+    - name: Copy supervisor file on remote host
+      template:
+          src=./flask_app.conf.j2
+          dest=/etc/supervisor/conf.d/flask_app.conf
+      notify:
+          - restart supervisor
+
+    - name: Create Folder flask_app for supervisord
+      file: 
+        path: /var/log/flask_app
+        owner: root 
+        group: root 
+        mode: 0755 
+        state: directory
+
+    - name: Touch again flask_app.out.log, but dont change times this makes the task idempotent
+      file:
+        path: /var/log/flask_app/flask_app.out.log
+        state: touch
+        mode: 0644
+        owner: root
+        group: root
+        modification_time: preserve
+        access_time: preserve
+      register: p
+      changed_when: >
+        p.diff.before.state == "absent" or
+        p.diff.before.mode|default("0644") != "0644" or
+        p.diff.before.owner|default(0) != 0 or
+        p.diff.before.group|default(0) != 0
+
+    - name: Touch again flask_app.err.log, but dont change times this makes the task idempotent
+      file:
+        path: /var/log/flask_app/flask_app.err.log
+        state: touch
+        mode: 0644
+        owner: root
+        group: root
+        modification_time: preserve
+        access_time: preserve
+      register: p
+      changed_when: >
+        p.diff.before.state == "absent" or
+        p.diff.before.mode|default("0644") != "0644" or
+        p.diff.before.owner|default(0) != 0 or
+        p.diff.before.group|default(0) != 0
+        
+    - name: Restart Supervisorctl
+      become: true
+      service: name=supervisor state=restarted
+
+    - name: copy cronjob files to server
+      copy: 
+        src: "{{ item }}"
+        dest: /flask_app_project
+      loop:
+        - ./cronjobs/python/report_excel.py
+        - ./cronjobs/python/report_graph.py
+
+    - cron:
+        name: "Add cronjob to create an graph"
+        day: "1"
+        minute: "20"
+        hour: "3"
+        job: "python3 /flask_project_app/report_graph.py >> /var/log/cron.log 2>&1"
+
+    - cron:
+        name: "Add cronjob to create a report"
+        day: "1"
+        minute: "10"
+        hour: "3"
+        job: "python3 /flask_project_app/report_excel.py >> /var/log/cron.log 2>&1"

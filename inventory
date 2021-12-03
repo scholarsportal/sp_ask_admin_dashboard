@@ -1,8 +1,8 @@
 [all:vars]
-## https://www.cyberciti.biz/faq/how-to-install-ansible-on-fedora-29-for-it-and-server-automation/ ##
+
 
 ## my box VMs ##
-[odesiflaskbox_dev]
-172.104.82.21 ansible_ssh_user=root ansible_ssh_pass=(Scholars)
+[sp_ask_dashboard_dev]
+173.255.243.168 ansible_ssh_user=root ansible_ssh_pass=no
 
-[odesiflaskbox_prod]
+[sp_ask_dashboard_prod]

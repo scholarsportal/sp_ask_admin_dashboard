@@ -5,7 +5,7 @@ vim etc/hosts #add ip + hostname
 #adding user
 adduser odesiuser
 #add user in the sudo group
-adduser odesiuser sudo  
+adduser odesiuser sudo
 #create ssh keys
 vim /etc/ssh/sshd_config
     #PermitRootLogin no
@@ -18,8 +18,8 @@ sudo systemctl restart sshd
 sudo apt install ufw
 sudo ufw default allow outgoing
 sudo ufw default deny incoming
-sudo ufw allow ssh 
-sudo ufw allow 5000 
+sudo ufw allow ssh
+sudo ufw allow 5000
 sudo ufw enable
 sudo ufw status
 
@@ -31,7 +31,7 @@ python3 -m venv Falsk_blog/venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-#try to see if the app works on port 5000 
+#try to see if the app works on port 5000
 
 #install nginx
 sudo apt install nginx
@@ -48,7 +48,7 @@ sudo ufw enable
 sudo systemctl restart nginx
 
 nproc --all
-gunicorn -w 3 run:app # need to have an run.py 
+gunicorn -w 3 run:app # need to have an run.py
 
 #install supervisor to reload app on crash
 sudo apt install supervisor

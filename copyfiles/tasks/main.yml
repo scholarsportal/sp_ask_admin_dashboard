@@ -1,0 +1,35 @@
+---
+    - name: Creates directory
+      file:
+        path: /flask_app_project
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: 0775
+
+    - name: Creates /app directory
+      file:
+        path: /app
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: 0775
+
+    - name: copy files to server
+      copy: 
+        src: "{{ item }}"
+        dest: /flask_app_project
+      loop:
+        - ./flaskodesiapp
+        - ./run.py
+        - ./requirements
+        - ./tests
+        - ./pytest.ini
+        - ./dockerfiles/odesi_docker.sql
+
+    - name: copy log.log file to server
+      copy: 
+        src: "{{ item }}"
+        dest: /app
+      loop:
+        - ./log.log

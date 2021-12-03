@@ -60,3 +60,7 @@ poetry-migrate:
 docker-run:
 	@echo 'Running docker to run the image'
 	docker-compose up --build --force-recreate -d	
+
+ansible-run:
+	@echo 'Running ansible without password'
+	ansible-playbook -i inventory -v -b -c paramiko --ask-pass ubuntu-playbook.yml
