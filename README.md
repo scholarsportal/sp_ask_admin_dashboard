@@ -82,8 +82,7 @@ open your browser on http://127.0.0.1:8000/
 ## Install with Ansible
 
         #TODO
-        make ansible-run 
-        or ansible-playbook -i inventory -v -b -c paramiko --ask-pass ubuntu-playbook.yml
+        
 ## Credit
 [LibraryH3lp API](https://gitlab.com/libraryh3lp/libraryh3lp-sdk-python/) -MIT
 
@@ -94,4 +93,5 @@ open your browser on http://127.0.0.1:8000/
  - Erik R (Western)
  - Bart K (Scholars-Portal)
  - Sabina P (Scholars-Portal)
+    
     

@@ -3,7 +3,6 @@
     remote_user: root
     become: true
     vars:
-      mysql_root_password: "sp!ASK!2019"
       host: "{{ inventory_hostname }}"
       project_path: "/app"
 
@@ -21,8 +20,6 @@
       - name: Ansible host
         debug: 
           msg: "http://{{ ansible_ssh_host }}"
-
-
 
     roles: 
       - baseconf
