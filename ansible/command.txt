@@ -1,0 +1,59 @@
+hostnamectl set-hostname flask-server
+
+vim etc/hosts #add ip + hostname
+
+#adding user
+adduser odesiuser
+#add user in the sudo group
+adduser odesiuser sudo  
+#create ssh keys
+vim /etc/ssh/sshd_config
+    #PermitRootLogin no
+    #Password authentification no
+
+#restart the ssh service
+sudo systemctl restart sshd
+
+#setup a firewall
+sudo apt install ufw
+sudo ufw default allow outgoing
+sudo ufw default deny incoming
+sudo ufw allow ssh 
+sudo ufw allow 5000 
+sudo ufw enable
+sudo ufw status
+
+
+#install python 3
+sudo apt install python3 python3-venv
+
+python3 -m venv Falsk_blog/venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+#try to see if the app works on port 5000 
+
+#install nginx
+sudo apt install nginx
+pip install gunicorn
+
+sudo rm /etc/nginx/sites-enabled/default
+sudo vim /etc/nginx/sites-enabled/spodesi
+#50:39
+
+sudo ufw allow http/tcp
+sudo ufw delete allow 5000
+sudo ufw enable
+
+sudo systemctl restart nginx
+
+nproc --all
+gunicorn -w 3 run:app # need to have an run.py 
+
+#install supervisor to reload app on crash
+sudo apt install supervisor
+sudo vim /etc/supervisor/conf.d/flaskblog.conf #1:01:27
+
+sudo mkdir -p /var/log/flaskblog
+
+

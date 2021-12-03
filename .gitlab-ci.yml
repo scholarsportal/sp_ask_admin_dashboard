@@ -1,0 +1,13 @@
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+build-test-containers:
+  image: tiangolo/docker-with-compose
+  before_script:
+  - docker info
+  - docker-compose --version
+  script:
+  - docker-compose run test

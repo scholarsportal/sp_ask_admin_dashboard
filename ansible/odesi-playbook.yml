@@ -1,0 +1,26 @@
+---
+- hosts: odesiflaskbox_dev
+  vars:
+    mysql_root_password: "Password1"
+
+  remote_user: root
+  roles:
+    - linux-common
+    - flask-webapp
+    - mariadb
+    #- { role: geerlingguy.phpmyadmin }
+  tasks:
+    - name: Test Connection
+      ping:
+    - name: Get hostname for testing purpose
+      command: cat /etc/system-release
+      changed_when: False
+      register: hostname
+    - debug: var={{ item }}
+      with_items:
+        - hostname.stdout
+
+    - name: Set environment variables on remote host
+      shell: "echo $MY_ENV_VARIABLE"
+      environment: 
+        MY_ENV_VARIABLE: "Guinsly M"

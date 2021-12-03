@@ -1,0 +1,149 @@
+---
+### common
+
+- name: Create Folder /app if not exist
+  file:
+    path: /app
+    mode: 0755
+    state: directory
+
+- name: copy files and directories /to server
+  copy: 
+    src: "{{ item }}"
+    dest: /app
+  loop:
+    - /root/odesi_downloads/README.md
+    - ./ansible
+    - ./tasks.todo
+    - ./conf.d
+    - ./cronjobs
+    - ./dockerfiles
+    - ./dotfiles
+    - ./flaskodesiapp
+    - ./requirements
+    - ./screenshots
+    - ./Makefile
+    - ./README.md
+    - ./run.py
+    - ./tasks.todo
+    - ./.gitlab-ci.yml
+    - ./.coveragerc
+    - ./inventory
+    - ./pytest.ini
+    - ./tests
+    - ./app_test.py
+  register: copy_output
+- debug: var=copy_output
+
+
+
+- name: Enable EPL
+  yum:
+    name: epel-release
+    state: latest
+    update_cache: yes
+  become: true
+
+- name: "install vim"
+  yum:
+    name: vim
+    state: latest
+  when: ansible_pkg_mgr == 'yum'
+
+- name: "install wget"
+  yum:
+    name: wget
+    state: latest
+  when: ansible_pkg_mgr == 'yum'
+
+- name: "install git"
+  yum:
+    name: git
+    state: latest
+  when: ansible_pkg_mgr == 'yum'
+
+- name: "install nginx"
+  yum:
+    name: nginx
+    state: latest
+    update_cache: yes
+  become: true
+
+- name: "yum install make"
+  yum:
+    name: make
+
+- name: "yum install gcc-c++"
+  yum:
+    name: gcc-c++
+
+- command: "{{ item }}"
+  with_items:
+    - systemctl start nginx
+    - systemctl enable nginx
+    - yum install pcre-devel libxml2-devel curl-devel gd-devel libxslt- devel libjpeg-devel -y
+
+- name: Install basic tools
+  yum:
+    name: ['yum-utils', 'vim-enhanced', 'make', 'gcc', 'gcc-c++', 'ntp', 'yamllint', '@Development Tools']
+    state: latest
+
+#https://stackoverflow.com/a/30777607/2581266
+  
+- name: executing nginx restart session
+  command: systemctl restart nginx
+
+- name: "install unzip"
+  yum:
+    name: unzip
+    state: latest
+  when: ansible_pkg_mgr == 'yum'
+
+- name: "install curl"
+  yum:
+    name: curl
+    state: latest
+  when: ansible_pkg_mgr == 'yum'
+
+- name: Set timezone to America/Toronto
+  timezone:
+    name: America/Toronto
+
+- name: "install sysstat"
+  yum:
+    name: sysstat
+    state: latest
+  when: ansible_pkg_mgr == 'yum'
+
+- name: update all software (yum/7)
+  yum:
+    name: "*"
+    state: latest
+  when:
+    - ansible_pkg_mgr == "yum"
+    - ansible_distribution_major_version == "7"
+  tags:
+    - skip_ansible_lint
+
+- name: "yum install python3"
+  yum:
+    name: python3
+
+- name: "yum install python3-pip"
+  yum:
+    name: python3-pip
+
+- name: "yum install python3-devel"
+  yum:
+    name: python3-devel
+
+- name: Install ufw
+  yum:
+    name: ufw
+    update_cache: true
+
+- name: Install tree
+  yum:
+    name: tree
+    update_cache: true
+

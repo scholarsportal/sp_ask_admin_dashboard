@@ -1,0 +1,20 @@
+---
+ansible_user: root
+# true|false for UFW Firewall
+ufw_enabled: "false"
+
+# ping allow|deny
+ufw_ping: "deny"
+
+ufw_allowed_tcp_ports:
+  - "80"
+  - "443"
+  
+ufw_allowed_udp_ports:
+  - "1:65535"
+
+# Generate additional locales
+locales_gen:
+  - "uk_UA.UTF-8"
+
+mysql_root_password: "Password1"

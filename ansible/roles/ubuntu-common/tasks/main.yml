@@ -1,0 +1,136 @@
+- name: populate /etc/environment
+  lineinfile:
+    dest: "/etc/environment"
+    state: present
+    regexp: "^{{ item.key }}="
+    line: "{{ item.key }}={{ item.value}}"
+  loop:
+    - key: DJANGO_SUPER_USER 
+      value : admin
+    - key: FLASK_APP 
+      value : run.py
+    - key: MYSQL_ROOT_PASSWORD 
+      value : "Password1"
+    - key: MYSQL_DATABASE 
+      value : sp_odesi
+    - key: MYSQL_ODESI_DATABASE_HOST 
+      value : mariaDB
+    - key: MYSQL_ODESI_DATABASE_USER 
+      value : root
+    - key: MYSQL_ODESI_DATABASE_NAME 
+      value : sp_odesi
+    - key: MYSQL_ODESI_ROOT_PASSWORD 
+      value : "Password1"
+    - key: MYSQL_ODESI_PORT 
+      value : 3306
+    - key: MYAPP_WORKDIR 
+      value : /app/
+
+- name: ensure a directory exists or create it
+  file: 
+    path: /app
+    state: directory
+
+# - name: copy files to server
+#   copy: 
+#     src: "{{ item }}"
+#     dest: /app
+#   loop:
+#     - /root/odesi_downloads/README.md
+#     - ./ansible
+#     - ./tasks.todo
+#     - ./conf.d
+#     - ./cronjobs
+#     - ./dockerfiles
+#     - ./dotfiles
+#     - ./flaskodesiapp
+#     - ./requirements
+#     - ./screenshots
+#     - ./Makefile
+#     - ./README.md
+#     - ./run.py
+#     - ./tasks.todo
+#     - ./.gitlab-ci.yml
+#     - ./.coveragerc
+#     - ./inventory
+#     - ./pytest.ini
+#     - ./tests
+#     - ./app_test.py
+#   register: copy_output
+# - debug: var=copy_output
+
+- name: Update apt-get repo and cache
+  apt: 
+    update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+- name: "install vim"
+  apt:
+    name: vim
+    state: latest
+  when: ansible_pkg_mgr == 'apt'
+
+- name: "install htop"
+  apt:
+    name: htop
+    state: latest
+  when: ansible_pkg_mgr == 'apt'
+
+- name: Install a list of packages
+  apt:
+    pkg:
+    - git
+    - vim
+    - tree
+    - nginx
+    - make
+    - make
+    - gcc
+    - ntp
+    - yamllint
+    - unzip
+    - sysstat
+    - curl 
+    - python3
+    - ufw
+    - python3-pip 
+    - python3-dev 
+    - build-essential 
+    - libssl-dev 
+    - libffi-dev 
+    - python3-setuptools
+    - python3-venv
+
+- name: Install utility packages
+  apt:
+    name:
+      - nano
+      - mc
+      - net-tools
+      - unzip
+      - bsd-mailx
+      - fail2ban
+      - unattended-upgrades
+      - apt-listchanges
+      - needrestart
+      - libpam-pwquality
+      - aide
+      - haveged
+      - chrony
+      - postfix
+      - firewalld
+      - man
+    state: latest
+
+- name: Set the hostname
+  command: hostnamectl set-hostname odesi-app
+
+- command: "{{ item }}"
+  with_items:
+    - systemctl start nginx
+    - systemctl enable nginx
+
+- name: Install requirements
+  pip: 
+    requirements: /app/requirements/requirements.txt
+    virtualenv: /app/venv
+    virtualenv_python: python3.

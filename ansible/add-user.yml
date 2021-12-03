@@ -1,0 +1,24 @@
+---
+- hosts: odesi-downloads
+  tasks:
+    - name: Creating a user group
+      group:
+        name: sudo
+        state: present
+    - name: Create a login user
+      user:
+        name: odesi
+        password: $6$HFFiPfc7.COm8P.I$nG39zzJgskLOuw8DOfZB7xRwV4.pPBhSkij92il6KWIw28he3MRuzuOuA2vCR4.qNtK89oX.IMFxntAo9Ij.W1
+        groups: # Empty by default, here we give it some groups
+          - root
+          - sudo
+        state: present
+        shell: /bin/bash       # Defaults to /bin/bash
+        system: no             # Defaults to no
+        createhome: yes        # Defaults to yes
+    - name: Adding ssh keys
+      authorized_key:
+        user: odesi
+        state: present
+        manage_dir: yes
+        key: "{{ lookup('file', '/root/.ssh/github_rsa.pub') }}"
