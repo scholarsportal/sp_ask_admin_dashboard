@@ -9,3 +9,6 @@ pytest-cov
 
 #docs
 django-sphinxdoc
+
+#linter
+black

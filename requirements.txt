@@ -2,7 +2,7 @@ requests
 numpy
 pandas
 django==2.2.19
-python-dateutil 
+python-dateutil
 python-dotenv
 BeautifulSoup4
 colorama==0.4.4
@@ -12,19 +12,12 @@ colorama==0.4.4
 lh3api
 
 #stats
-#Create MS Excel file 
+#Create MS Excel file
 XlsxWriter
 openpyxl
 
-#Testing
-pytest
-pytest-watch
-pytest-django
-pytest-sugar
-pytest-cov
-
 #dev
-django-extensions   
-#django-debug-toolbar 
+django-extensions
 
 django-model-utils
+

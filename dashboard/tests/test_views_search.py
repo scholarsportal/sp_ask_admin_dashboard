@@ -29,7 +29,7 @@ class Unit_test(TestCase):
         assert response.status_code == 200
 
     def test_view_guest_id(self):
-        url = reverse("search_chats_with_this_guestID", "text/json",            
+        url = reverse("search_chats_with_this_guestID", "text/json",
                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         response = self.client.get(url)
         breakpoint()#pytest.set_trace()
