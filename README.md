@@ -14,8 +14,7 @@ Sp Ask DashBoard
 
 #### Table of contents
 - [Install with Docker](#install-with-docker)
-- [Install with python or poetry](#install-with-python-or-poetry)
-- [Install with poetry](#install-with-poetry)
+- [Install with Pip or Poetry](#install-with-pip-or-poetry)
 - [Install with Ansible](#install-with-ansible)
 
 
@@ -44,7 +43,7 @@ Run Docker to access the web application
 open your browser on http://127.0.0.1/ or the ip address of your server IP address 000.000.000.000
 
 
-## Install with Python or Poetry
+## Install with Pip or Poetry
 
         git clone https://github.com/scholarsportal/sp_ask_admin_dashboard.git
 
