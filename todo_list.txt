@@ -1,0 +1,24 @@
+Projects:
+    - Homepage
+        - @done
+    - Search
+        - @done
+    - Queues
+        - Remove Schools column - asked Erik first
+    - Report
+        - Daily _ to_excel
+        - Operator Assignement - check the last two years
+        - Chord Diagram
+            - Take a random 10 operators
+            - Remove this -- too complicated - time consuming
+    - Transcrits
+        - Add Reference Questions
+        - Add Follow-up
+        - Add kind of Reference Questions (max 100)
+    - Tests
+        - Tests components
+    - Server
+        - Ansible
+        - Server
+        - Vagrant
+        - Android App
