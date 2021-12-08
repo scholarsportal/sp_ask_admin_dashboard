@@ -3,16 +3,17 @@ Projects:
         - @done
     - Search
         - @done
+        - Day before and Day After
     - Queues
         - Remove Schools column - asked Erik first
     - Report
         - Daily _ to_excel
         - Operator Assignement - check the last two years (API 3 search - chat within date range AND get the operators ID)
-        - Chord Diagram
+        - Chord Diagram - to remove
             - Take a random 10 operators
             - Remove this -- too complicated - time consuming
     - Transcrits
-        - Add Reference Questions
+        - Add Reference Questions (sessions)
         - Add Follow-up
         - Add kind of Reference Questions (max 100)
     - Tests
