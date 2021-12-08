@@ -64,9 +64,6 @@ def get_url(queue):
     response = requests.get(url).content
     return response.decode("utf-8")
 
-
-
-
 def get_homepage(request, *args, **kwargs):
     #my_env_file = Path(BASE_DIR, ".secrets")
 
@@ -97,6 +94,38 @@ def get_homepage(request, *args, **kwargs):
     users = client.all("users").get_list()
     users = [user for user in users if user.get("show") != "unavailable"]
 
+
+    # Serivces opened
+    queues = client.all('queues').get_list()
+
+    #SMS
+    all_sms = [qu for qu in queues if   '-txt' in qu['name']]
+    sms_available = [ texto['name'] for texto in all_sms if texto['show']=='available']
+    print("{0}/{1}".format(len(sms_available), len(all_sms)))
+    sms_unavailable = [ texto['name'] for texto in all_sms if texto['show']=='unavailable']
+    sms_service = "<em>SMS:</em> at least <i>{0} queues opened out of </i> <b> {1}</b>".format(len(all_sms) - len(sms_unavailable), len(all_sms))
+
+    #WEB
+    without_sms= [qu for qu in queues if   '-txt' not in qu['name']]
+    web= [qu for qu in without_sms if   '-fr' not in qu['name']]
+    web_unavailable = [ unavailable['name'] for unavailable in web if unavailable['show']=='unavailable']
+    print("Web service  {0}/{1}".format(len(web) - len(web_unavailable), len(web)))
+    web_service =  "<em>Web:</em> at least <i>{0} queues opened out of </i> <b> {1}</b>".format(len(web) - len(web_unavailable), len(web))
+
+    #FR
+    all_fr = [qu for qu in queues if   '-fr' in qu['name']]
+    fr_available = [ fr_chat['name'] for fr_chat in all_fr if fr_chat['show']=='available']
+    fr_unavailable = [ unavailable['name'] for unavailable in all_fr if unavailable['show']=='unavailable']
+    fr_service = "<em>FR:</em> at least <i>{0} queues opened out of </i> <b> {1}</b>".format(len(all_fr) - len(fr_unavailable), len(all_fr))
+
+    #Total vs total unavailable
+    unavailable = [ unavailable['name'] for unavailable in queues if unavailable['show']=='unavailable']
+    available = [ available['name'] for available in queues if available['show']=='available']
+    #print("{0}/{1}".format(len(queues) - len(unavailable), len(queues)))
+
+
+
+
     if request.is_ajax():
         return JsonResponse(
             {
@@ -104,6 +133,9 @@ def get_homepage(request, *args, **kwargs):
                 "total_operator_online": users,
                 "last_year": today.year - 1,
                 "this_year": today.year,
+                "sms_service": sms_service,
+                "web_service": web_service,
+                "fr_service": fr_service,
             },
             safe=False,
         )
@@ -115,6 +147,9 @@ def get_homepage(request, *args, **kwargs):
             "total_operator_online": users,
             "last_year": today.year - 1,
             "this_year": today.year,
+            "sms_service": sms_service,
+            "web_service": web_service,
+            "fr_service": fr_service,
         },
     )
 

@@ -39,12 +39,18 @@
                                                 <div class="media">
                                                     <div class="media-body overflow-hidden">
                                                         <p class="text-truncate font-size-14 mb-2">Web</p>
-                                                        <h4 class="mb-0 web-service"> 
-                                                            <i class="fa fa-spinner fa-spin"></i>
+                                                        <h4 class="mb-0 web-service " 
+                                                            data-toggle="tooltip" 
+                                                            data-html="true" 
+                                                            title="{{web_service | safe}}" 
+                                                            data-placement="bottom" 
+                                                        > 
+                                                                <i class="fa fa-spinner fa-spin"></i>
                                                         </h4>
                                                     </div>
                                                     <div class="text-primary">
-                                                        <i class=" font-size-24"></i>
+                                                            <i class=" font-size-24"></i>
+                                                        
                                                     </div>
                                                     <style>
                                                         #off.fa-toggle-off{
@@ -53,8 +59,13 @@
                                                     </style>
                                                     <div class="media-body overflow-hidden">
                                                         <p class="text-truncate font-size-14 mb-2">SMS</p>
-                                                        <h4 class="mb-0 sms-service"> 
-                                                            <i class="fa fa-spinner fa-spin"></i>
+                                                        <h4 class="mb-0 sms-service" 
+                                                                data-toggle="tooltip" 
+                                                                data-html="true" 
+                                                                title="<em>SMS:</em> at least <i>12 queues opened out of </i> <b> 17</b>" 
+                                                                data-placement="bottom" 
+                                                            >  
+                                                                <i class="fa fa-spinner fa-spin"></i>
                                                         </h4>
                                                     </div>
                                                     <div class="text-primary">
@@ -62,8 +73,13 @@
                                                     </div>
                                                     <div class="media-body overflow-hidden">
                                                         <p class="text-truncate font-size-14 mb-2">FR</p>
-                                                        <h4 class="mb-0 fr-service"> 
-                                                            <i class="fa fa-spinner fa-spin"></i>
+                                                        <h4 class="mb-0 fr-service" 
+                                                                data-toggle="tooltip" 
+                                                                data-html="true" 
+                                                                title="{{fr_service | safe}}" 
+                                                                data-placement="bottom" 
+                                                            >  
+                                                                <i class="fa fa-spinner fa-spin"></i>
                                                         </h4>
                                                     </div>
                                                     <div class="text-primary">
@@ -493,7 +509,7 @@ function beep() {
                                                     $(divClass).html('<i class="far fa-smile"></i>')
                                                 }else{
                                                     $(divClass).html('<i class="fas fa-frown-open animate__animated"></i>');
-                                                    beep();
+                                                    //beep();
                                                 }
                                                 var now = new Date(Date.now());
                                                 $(".time_now_service ").text(now.toLocaleString())
@@ -564,6 +580,11 @@ function beep() {
 
                         });
                         
+
+                        $(function () {
+                            $('[data-toggle="tooltip"]').tooltip()
+                        });
+
                         /*
 
                         var datatable = $( '#myDataTableUsersOnline-----not-working' ).DataTable({searching: false,destroy: true,paging: false,});
@@ -601,6 +622,7 @@ function beep() {
                                         })
                                     }, 5000);//every 5 seconds 
                                     */
+
 
                                 </script>
 

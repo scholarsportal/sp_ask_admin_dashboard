@@ -14,11 +14,13 @@ all_sms = [qu for qu in queues if   '-txt' in qu['name']]
 sms_available = [ texto['name'] for texto in all_sms if texto['show']=='available']
 print("{0}/{1}".format(len(sms_available), len(all_sms)))
 sms_unavailable = [ texto['name'] for texto in all_sms if texto['show']=='unavailable']
-print(sms_unavailable)
+print("SMS service  {0}/{1}".format(len(all_sms) - len(sms_unavailable), len(all_sms)))
 
 #WEB
 without_sms= [qu for qu in queues if   '-txt' not in qu['name']]
 web= [qu for qu in without_sms if   '-fr' not in qu['name']]
+web_unavailable = [ unavailable['name'] for unavailable in web if unavailable['show']=='unavailable']
+print("Web service  {0}/{1}".format(len(web) - len(web_unavailable), len(web)))
 
 #Total vs total unavailable
 unavailable = [ unavailable['name'] for unavailable in queues if unavailable['show']=='unavailable']
