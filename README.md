@@ -42,6 +42,9 @@ Run Docker to access the web application
 
 open your browser on http://127.0.0.1/ or the ip address of your server IP address 000.000.000.000
 
+For Troubleshooting
+
+        docker-compose logs
 
 ## Install with Pip or Poetry
 
