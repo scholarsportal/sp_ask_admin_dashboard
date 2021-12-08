@@ -7,7 +7,7 @@ Projects:
         - Remove Schools column - asked Erik first
     - Report
         - Daily _ to_excel
-        - Operator Assignement - check the last two years
+        - Operator Assignement - check the last two years (API 3 search - chat within date range AND get the operators ID)
         - Chord Diagram
             - Take a random 10 operators
             - Remove this -- too complicated - time consuming
