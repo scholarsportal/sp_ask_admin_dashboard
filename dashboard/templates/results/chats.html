@@ -88,9 +88,13 @@
                                                     <tr>
                                                         <th scope="row">{{ forloop.counter }}</th>
                                                         <td>
-                                                            <a href="{{ value.chat_standalone_url }}" target="_blank">
+                                                            <a href="{% url 'find_chat_with_this_guestID' value.guest %}" target="_blank">
                                                                 {{value.guest|truncatechars:7}}
                                                             </a>
+                                                            <a href="{{ value.chat_standalone_url }}" target="_blank">
+                                                                <i class="fas fa-external-link-alt"></i> 
+                                                            </a>
+
                                                         </td>
                                                         <td>
                                                             {% if value.started %}

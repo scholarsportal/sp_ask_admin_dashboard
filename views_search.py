@@ -733,7 +733,7 @@ class SearchGuestResultsView(TemplateView):
 
 
 def find_chat_with_this_guestID(request, *args, **kwargs):
-    guest_id = kwargs.get("guest_id", None)
+    guest_id = request.GET.get("guest_id", None)
     chats = None
     if guest_id:
         if "@" in guest_id:

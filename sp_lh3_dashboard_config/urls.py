@@ -48,6 +48,8 @@ urlpatterns += [
     ),
 ]
 
+
+
 # HOMEPAGE
 from dashboard.views.views_homepage import (
     get_operators_currently_online,
@@ -65,6 +67,12 @@ from dashboard.views.views_homepage import (
     get_list_of_operators_currently_online,
     last_chats,
 )
+
+# HOMEPAGE SEARCH
+from dashboard.views.views_search import (
+    find_chat_with_this_guestID,
+)
+
 
 urlpatterns += [
     path(
@@ -105,6 +113,12 @@ urlpatterns += [
     path("service_sms/", service_sms, name="service_sms"),
     path("service_web/", service_fr, name="service_fr"),
     path("homepage/chart/", get_data_for_chart, name="get_data_for_chart"),
+    path(
+        route="search/chat/<str:guest_id>",
+        view=find_chat_with_this_guestID,
+        name="find_chat_with_this_guestID",
+    ),
+    
 ]
 
 #PROFILES AND FAQs
@@ -115,7 +129,7 @@ from dashboard.views.views_profiles_and_faqs import (
 )
 
 urlpatterns += [
-    
+
     path("search/profiles/<str:queue_id>", get_this_profile, name="get_this_profile"),
     path(
         "results/Profiles/", SearchProfileResultsView.as_view(), name="results_profiles"
@@ -268,7 +282,7 @@ from dashboard.views.views_transcript import (
 
 urlpatterns += [
     path('identify_reference_question/<int:chat_id>/<int:message_position>', add_this_as_a_reference_question, name='add_as_a_reference_question'),
-    
+
     path('remove_reference_question/<int:pk>', TranscriptRemoveReferenceQuestion.as_view(), name='remove_reference_question'),
 
     path(
